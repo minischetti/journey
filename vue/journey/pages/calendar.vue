@@ -2,5 +2,4 @@
     <div>
         <Calendar/>
     </div>
-
 </template>

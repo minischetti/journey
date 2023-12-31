@@ -1,5 +1,6 @@
 <template>
     <div class="calendar">
+        <!-- <h1>{{ currentYear }}</h1> -->
         <div class="header">
             <button @click="previousMonth">&lt;</button>
             <h2>{{ currentMonth }}</h2>
@@ -9,31 +10,55 @@
             <div v-for="day in daysOfWeek" :key="day" class="day">{{ day }}</div>
         </div>
         <div class="dates">
-            <div v-for="date in calendarDates" :key="date" class="date">{{ date }}</div>
+            <div v-for="date in calendarDates" :key="date" class="date">
+                <div>{{ date }}</div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { format, getDaysInMonth, getDay, getMonth, getYear, subMonths, addMonths } from "date-fns";
+import * as datefns from "date-fns";
 export default {
     data() {
-        const currentMonth = format(new Date(), "MMMM yyyy");
-        const daysOfWeek = () => {
-            return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        };
-
-        const calendarDates = [...Array(getDaysInMonth(new Date(getYear(new Date()), getMonth(new Date())))).keys()].map((day) => day + 1);
         return {
-            currentMonth,
-            daysOfWeek: daysOfWeek(),
-            calendarDates,
+            date: new Date(),
         };
+    },
+    computed: {
+        currentYear() {
+            return datefns.format(this.date, "yyyy");
+        },
+        currentMonth() {
+            return datefns.format(this.date, "MMMM");
+        },
+        daysOfWeek() {
+            return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        },
+        calendarDates() {
+            return [...Array(datefns.getDaysInMonth(this.date)).keys()].map((day) => day + 1);
+        },
     },
     methods: {
-        previousMonth() {},
-        nextMonth() {},
+        previousMonth() {
+            this.date = datefns.subMonths(this.date, 1);
+        },
+        nextMonth() {
+            this.date = datefns.addMonths(this.date, 1);
+        },
     },
+
+    mounted() {
+        this.$emit("update:currentMonth", this.currentMonth);
+    },
+
+    watch: {
+        currentMonth() {
+            this.$emit("update:currentMonth", this.currentMonth);
+        },
+    },
+
+    emits: ["update:currentMonth"],
 };
 </script>
 

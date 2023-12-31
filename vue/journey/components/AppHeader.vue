@@ -10,6 +10,10 @@ const nav = () => [
         name: "Calendar",
         path: "/calendar",
     },
+    {
+        name: "Overview",
+        path: "/overview",
+    }
 ];
 </script>
 <template>
