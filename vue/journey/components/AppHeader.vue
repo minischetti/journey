@@ -13,7 +13,15 @@ const nav = () => [
     {
         name: "Overview",
         path: "/overview",
-    }
+    },
+    {
+        name: "Agenda",
+        path: "/agenda",
+    },
+    {
+        name: "People",
+        path: "/people",
+    },
 ];
 </script>
 <template>

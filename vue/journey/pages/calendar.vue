@@ -9,7 +9,7 @@
         </select>
 
         <!-- Calendar -->
-        <Calendar view="{{ view  }}"/>
+        <Calendar view="{{ view }}"/>
     </div>
 </template>
 <script setup lang="ts">
@@ -20,5 +20,6 @@
         Month = "Month",
         Year = "Year",
     }
+
     const view = ref(CalendarView.Month);
 </script>
