@@ -1,99 +1,71 @@
 <template>
-  <div class="calendar">
-    <!-- <h1>{{ currentYear }}</h1> -->
-    <div class="header">
-      <button @click="previousMonth">&lt;</button>
-      <h2>{{ currentMonth }}</h2>
-      <button @click="nextMonth">&gt;</button>
+    <div class="calendar">
+        <div class="day__header">
+            <div class="day__header__item" v-for="day in daysOfWeek()" :key="day">
+                {{ day }}
+            </div>
+        </div>
+        <div class="day__body">
+            <div class="day__body__item" v-for="day in calendarDates()" :key="day"
+                :class="{ 'day__body__item--today': isToday(day) }">
+                {{ day }}
+            </div>
+        </div>
     </div>
-    <div class="days">
-      <div v-for="day in daysOfWeek" :key="day" class="day">{{ day }}</div>
-    </div>
-    <div class="dates">
-      <div v-for="calendarDate in calendarDates" :key="calendarDate" class="date">
-        <div>{{ calendarDate }}</div>
-      </div>
-    </div>
-  </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { ref } from "vue";
 import * as datefns from "date-fns";
-import { ref } from 'vue';
 
 const date = ref(new Date());
-const currentYear = datefns.format(date.value, "yyyy");
-const currentMonth = datefns.format(date.value, "MMMM");
-const daysOfWeek = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+
+const currentMonth = () => datefns.format(date.value, "MMMM");
+
+const calendarDays = () => [...Array(datefns.getDaysInMonth(date.value)).keys()];
+const calendarDates = () => calendarDays().map((day) => day + 1);
+
+const isToday = (day: number) => {
+    const today = new Date();
+    return (
+        datefns.isSameDay(date.value, today) &&
+        datefns.isSameMonth(date.value, today) &&
+        datefns.isSameYear(date.value, today) &&
+        day === datefns.getDate(today)
+    );
+};
+
+const daysOfWeek = () => [
+    "S",
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S",
 ];
-const calendarDates = [...Array(datefns.getDaysInMonth(date.value)).keys()].map(
-  (day) => day + 1
-);
-const previousMonth = () => {
-  date.value = datefns.subMonths(date.value, 1);
-};
-const nextMonth = () => {
-  date.value = datefns.addMonths(date.value, 1);
-};
 </script>
 
 <style scoped>
 .calendar {
-  /* Add your calendar styles here */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.day__header, .day__body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
 }
 
-.days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+.day__header__item, .day__body__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1;
 }
 
-.day {
-  /* Add your day styles here */
-  text-align: center;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  background-color: #eee;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  color: #666;
-  letter-spacing: 0.1rem;
-  line-height: 1.5rem;
-  cursor: default;
-  user-select: none;
-}
-
-.dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
-.date {
-  /* Add your date styles here */
-  text-align: center;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  font-weight: bold;
-  font-size: 0.8rem;
-  color: #666;
-  letter-spacing: 0.1rem;
-  line-height: 1.5rem;
-  cursor: pointer;
-  user-select: none;
-  aspect-ratio: 1;
+.day__body__item--today {
+    background-color: #f0f0f0;
 }
 </style>
