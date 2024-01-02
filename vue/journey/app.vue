@@ -22,25 +22,5 @@ const nav = () => [
   </NuxtLayout>
 </template>
 <style>
-body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-button {
-  border: none;
-  background-color: #000;
-  font-size: 1rem;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-
-button.border {
-  background-color: transparent;
-  border: 1px solid #333;
-  color: #333;
-}
+@import url("app.css");
 </style>

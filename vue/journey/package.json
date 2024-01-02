@@ -15,6 +15,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@phosphor-icons/vue": "^2.1.6",
     "@pinia/nuxt": "^0.5.1",
     "date-fns": "^3.0.6",
     "pinia": "^2.1.7"

@@ -1,0 +1,75 @@
+:root {
+    --font-sans: "Open Sans", sans-serif;
+    --font-serif: "Merriweather", serif;
+    --font-mono: "Roboto Mono", monospace;
+    --size-xs: 0.25rem;
+    --size-sm: 0.5rem;
+    --size-md: 0.75rem;
+    --size-lg: 1rem;
+    --size-xlg: 2rem;
+    --color-primary: #000;
+    --color-secondary: #fff;
+    --color-tertiary: #f5f5f5;
+}
+
+.flex {
+    display: flex;
+}
+
+.grid {
+    display: grid;
+}
+
+.row {
+    flex-direction: row;
+    grid-auto-flow: row;
+}
+
+.col {
+    flex-direction: column;
+    grid-auto-flow: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    border: none;
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: var(--size-md);
+    font-weight: bold;
+}
+
+button.border {
+    background-color: transparent;
+    border: 1px solid #333;
+    color: #333;
+}
+
+.font-sm {
+    font-size: var(--size-sm);
+}
+
+.font-md {
+    font-size: var(--size-md);
+}
+
+.font-lg {
+    font-size: var(--size-lg);
+}

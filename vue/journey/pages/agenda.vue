@@ -2,14 +2,22 @@
     <div class="container">
         <div class="items">
             <div v-for="item in items" :key="item.id" class="item">
-                <b>{{ item.title }}</b>
+                <div class="flex space-between">
+                    <b>{{ item.title }}</b>
+                    <div class="actions">
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>
+                </div>
                 <p>{{ item.content }}</p>
-                <p>{{ datefns.format(item.date, "MMMM d, yyyy") }}</p>
-                <p>{{ datefns.format(item.date, "h:mm a") }}</p>
+                <!-- <p>{{ datefns.format(item.date, "MMMM d, yyyy") }}</p> -->
+                <!-- <p>{{ datefns.format(item.date, "h:mm a") }}</p> -->
                 <div class="tags">
                     <div v-for="tag in item.tags" :key="tag" class="tag">
                         {{ tag }}
                     </div>
+                    <!-- Add tag button -->
+                    <div @click="addTag(item.id)" class="button tag">Add Tag</div>
                 </div>
             </div>
         </div>
@@ -20,6 +28,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import * as datefns from "date-fns";
+    import {PhPencil} from "@phosphor-icons/vue";
 
     const date = ref(new Date());
 
@@ -54,6 +63,13 @@
         return items;
     };
     const items = ref(createMockItems());
+
+    const addTag = (id: number) => {
+        const item = items.value.find((item) => item.id === id);
+        if (item) {
+            item.tags.push(`Tag ${item.tags.length}`);
+        }
+    };
 </script>
 
 <style scoped>
@@ -76,11 +92,12 @@
     .tags {
         display: flex;
         gap: 0.5rem;
+        font-size: 14px;
     }
 
     .tag {
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 1rem;
         border-radius: 0.5rem;
-        background-color: #e0e0e0;
+        border: 1px solid #e0e0e0;
     }
 </style>
