@@ -20,7 +20,20 @@ import * as datefns from "date-fns";
 
 const date = ref(new Date());
 
+const currentDay = () => datefns.format(date.value, "d");
 const currentMonth = () => datefns.format(date.value, "MMMM");
+const currentYear = () => datefns.format(date.value, "yyyy");
+
+const previousMonth = () => {
+    date.value = datefns.subMonths(date.value, 1);
+};
+const nextMonth = () => {
+    date.value = datefns.addMonths(date.value, 1);
+};
+
+const goToToday = () => {
+    date.value = new Date();
+};
 
 const calendarDays = () => [...Array(datefns.getDaysInMonth(date.value)).keys()];
 const calendarDates = () => calendarDays().map((day) => day + 1);
@@ -51,6 +64,13 @@ const daysOfWeek = () => [
     display: flex;
     flex-direction: column;
     width: 100%;
+    border: 1px solid #e0e0e0;
+}
+
+.day__header {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .day__header, .day__body {
@@ -67,5 +87,10 @@ const daysOfWeek = () => [
 
 .day__body__item--today {
     background-color: #f0f0f0;
+    border-radius: 1rem;
+    margin: 0.5rem;
+    font-weight: bold;
 }
+
+
 </style>
