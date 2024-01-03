@@ -4,14 +4,17 @@
             <div v-for="item in items" :key="item.id" class="item">
                 <div class="flex space-between">
                     <b>{{ item.title }}</b>
-                    <div class="actions">
+                    <!-- <div>
+                        <p>{{ datefns.format(item.date, "MMMM d, yyyy") }}</p>
+                        <p>{{ datefns.format(item.date, "h:mm a") }}</p>
+                    </div> -->
+                    <!-- <div class="actions">
                         <button>Edit</button>
                         <button>Delete</button>
-                    </div>
-                </div>
-                <p>{{ item.content }}</p>
-                <!-- <p>{{ datefns.format(item.date, "MMMM d, yyyy") }}</p> -->
-                <!-- <p>{{ datefns.format(item.date, "h:mm a") }}</p> -->
+                    </div> -->
+
+            </div>
+                <!-- <p>{{ item.content }}</p> -->
                 <div class="tags">
                     <div v-for="tag in item.tags" :key="tag" class="tag">
                         {{ tag }}
@@ -21,7 +24,6 @@
                 </div>
             </div>
         </div>
-        <Calendar/>
     </div>
 </template>
 
@@ -44,6 +46,7 @@
         // lastUpdated: Date;
         // reminder: Date;
         tags: string[];
+        items: Item[];
     }
     const createMockItems = () => {
         const items: Item[] = [];
@@ -58,6 +61,7 @@
                 // reminder: new Date(),
                 // random number of tags between 1 and 10
                 tags: [...Array(Math.floor(Math.random() * 10) + 1).keys()].map((tag) => `Tag ${tag}`),
+                items
             });
         }
         return items;
@@ -75,7 +79,6 @@
 <style scoped>
     .container {
         display: grid;
-        grid-template-columns: 2fr 1fr;
     }
     .items {
         display: grid;

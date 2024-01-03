@@ -4,10 +4,9 @@
         <slot />
     </div>
 </template>
-<style scoped>
+<style>
     .container {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        height: 100vh;
+        display: flex;
+        /* grid-template-columns: auto 1fr auto; */
     }
 </style>

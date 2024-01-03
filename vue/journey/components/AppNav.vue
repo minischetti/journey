@@ -5,8 +5,9 @@
             <router-link v-for="item in nav()" :key="item.name" class="nav-item" :class="{ active: router.currentRoute.value.path === item.path }" :to="item.path">
                 {{ item.name }}
             </router-link>
+            <Calendar />
         </div>
-        <AppFooter />
+        <!-- <AppFooter /> -->
     </div>
 </template>
 <script setup lang="ts">
@@ -17,35 +18,25 @@ const currentMonth = () => datefns.format(new Date(), "MMMM");
 
 const nav = () => [
     {
-        name: "Home",
-        path: "/",
-    },
-    {
         name: "Calendar",
         path: "/calendar",
-    },
-    {
-        name: "Overview",
-        path: "/overview",
     },
     {
         name: "Agenda",
         path: "/agenda",
     },
-    {
-        name: "People",
-        path: "/people",
-    },
 ];
 </script>
 <style scoped>
     .container {
-        display: grid;
-        grid-auto-flow: column;
-        grid-template-rows: auto 1fr auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        grid-template-columns: auto 1fr auto;
         background-color: #f5f5f5;
         border-right: 1px solid #e0e0e0;
         padding: 0 1rem;
+        min-width: 25dvw;
     }
     .nav-list {
         display: flex;
