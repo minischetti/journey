@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
 :root {
-    --font-sans: "Open Sans", sans-serif;
+    --font-sans: "Noto Sans", sans-serif;
     --font-serif: "Merriweather", serif;
     --font-mono: "Roboto Mono", monospace;
-    --size-xs: 0.25rem;
-    --size-sm: 0.5rem;
-    --size-md: 0.75rem;
-    --size-lg: 1rem;
-    --size-xlg: 2rem;
+    --size-0: 0.25rem;
+    --size-1: 0.5rem;
+    --size-2: 0.75rem;
+    --size-3: 1rem;
+    --size-4: 2rem;
+    --size-5: 3rem;
     --color-primary: #000;
     --color-secondary: #fff;
     --color-tertiary: #f5f5f5;
@@ -40,9 +43,28 @@
 }
 
 body {
-    font-family: sans-serif;
+    font-family: var(--font-sans);
     margin: 0;
     padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: var(--size-5);
+}
+
+h2 {
+    font-size: var(--size-4);
+}
+
+h3 {
+    font-size: var(--size-3);
 }
 
 button {
@@ -52,7 +74,7 @@ button {
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    font-size: var(--size-md);
+    font-size: var(--size-2);
     font-weight: bold;
 }
 
@@ -63,13 +85,13 @@ button.border {
 }
 
 .font-sm {
-    font-size: var(--size-sm);
+    font-size: var(--size-1);
 }
 
 .font-md {
-    font-size: var(--size-md);
+    font-size: var(--size-2);
 }
 
 .font-lg {
-    font-size: var(--size-lg);
+    font-size: var(--size-3);
 }

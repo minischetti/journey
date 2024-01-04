@@ -17,14 +17,18 @@ const currentYear = () => datefns.format(new Date(), "yyyy");
 const currentMonth = () => datefns.format(new Date(), "MMMM");
 
 const nav = () => [
-    {
-        name: "Calendar",
-        path: "/calendar",
-    },
+    // {
+    //     name: "Calendar",
+    //     path: "/calendar",
+    // },
     {
         name: "Agenda",
         path: "/agenda",
     },
+    {
+        name: "Playground",
+        path: "/playground",
+    }
 ];
 </script>
 <style scoped>
