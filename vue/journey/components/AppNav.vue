@@ -1,13 +1,13 @@
 <template>
     <div class="container">
-        <h1>Journey</h1>
-        <div class="nav-list">
-            <router-link v-for="item in nav()" :key="item.name" class="nav-item" :class="{ active: router.currentRoute.value.path === item.path }" :to="item.path">
-                {{ item.name }}
-            </router-link>
-            <Calendar />
-        </div>
-        <!-- <AppFooter /> -->
+        <AppHeader />
+        <!-- <div class="nav-list">
+                <router-link v-for="item in nav()" :key="item.name" class="nav-item" :class="{ active: router.currentRoute.value.path === item.path }" :to="item.path">
+                    {{ item.name }}
+                </router-link>
+        </div> -->
+        <Calendar />
+        <AppFooter />
     </div>
 </template>
 <script setup lang="ts">

@@ -1,18 +1,6 @@
 <template>
     <header>
-        <div class="row">
-            <h1>Journey</h1>
-            <ul>
-                <li v-for="item in nav()" :key="item.name">
-                    <router-link :to="item.path">{{ item.name }}</router-link>
-                </li>
-            </ul>
-        </div>
-        <!-- <div class="row center">
-            <p>
-                {{ currentMonth() }} {{ currentYear() }}
-            </p>
-        </div> -->
+        <b>Journey</b>
     </header>
 </template>
 <script setup lang="ts">

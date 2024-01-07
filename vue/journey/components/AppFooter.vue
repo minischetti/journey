@@ -1,14 +1,6 @@
 <template>
     <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <p>
-                        &copy; {{ currentYear() }} Journey
-                    </p>
-                </div>
-            </div>
-        </div>
+        <i>&copy; {{ currentYear() }} Journey</i>
     </footer>
 </template>
 

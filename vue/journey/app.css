@@ -84,6 +84,33 @@ button.border {
     color: #333;
 }
 
+select {
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: var(--size-2);
+    font-weight: bold;
+}
+
+input {
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: var(--size-2);
+    font-weight: inherit;
+}
+
+input:focus {
+    outline: none;
+}
+
+input.flat {
+    border: none;
+    border-radius: 0;
+    padding: 0.5rem 0;
+    font-size: inherit;
+}
+
 .font-sm {
     font-size: var(--size-1);
 }
