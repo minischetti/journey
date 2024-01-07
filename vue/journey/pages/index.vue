@@ -39,7 +39,7 @@
                 </div> -->
             </div>
         </div>
-        <div class="selected">
+        <div class="overlay" :class="{ active: showOverlay }">
             <div v-if="selected?.value">
                 <div class="flex space-between">
                     <b>{{ selected.value.title }}</b>
@@ -47,8 +47,10 @@
                         <p>{{ datefns.format(selected.value.date, "MMMM d, yyyy") }}</p>
                         <p>{{ datefns.format(selected.value.date, "h:mm a") }}</p>
                     </div>
-                    <div class="button" @click="selected.value = null">Close</div>
+                    <div class="button" @click="showOverlay = false">
+                        Close
                     </div>
+                </div>
                 <p>{{ selected.value.content }}</p>
                 <Tags @addTag="addTag(selected.value.id, $event)">
                     <Tag v-for="tag in selected.value.tags" :key="tag">
@@ -131,7 +133,10 @@
 
     const select = (id: number) => {
         selected.value = { value: items.value.find((item) => item.id === id) };
+        showOverlay.value = true;
     };
+
+    const showOverlay = ref(false);
 </script>
 
 <style scoped>
@@ -142,14 +147,16 @@
         padding: 0.5rem;
     }
     .agenda {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
+        display: flex;
         gap: 1rem;
+        height: 100dvh;
     }
     .items {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         gap: 1rem;
         overflow: scroll;
+        width: 100%;
     }
 
     .item {
@@ -160,10 +167,28 @@
         cursor: pointer;
     }
 
-    .selected {
+    .overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateX(100%);
+        opacity: 0;
+        bottom: 0;
         display: flex;
         flex-direction: column;
         gap: 1rem;
         overflow: scroll;
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(5px);
+        transition: all 0.5s ease-in-out;
+        min-width: 25vw;
+        max-width: fit-content;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border-left: 1px solid #e0e0e0;
+    }
+    .overlay.active {
+        transform: translateX(0);
+        opacity: 1;
     }
 </style>
