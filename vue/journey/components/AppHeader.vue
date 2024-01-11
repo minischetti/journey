@@ -1,6 +1,6 @@
 <template>
     <header>
-        <b>Journey</b>
+        <h2>Journey</h2>
     </header>
 </template>
 <script setup lang="ts">
@@ -39,8 +39,7 @@ header {
     align-items: center;
     flex-direction: column;
     padding: 2rem 3rem;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #e0e0e0;
+    /* border-bottom: 1px solid #e0e0e0; */
     position: sticky;
     top: 0;
 }

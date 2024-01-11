@@ -37,8 +37,8 @@ const nav = () => [
         flex-direction: column;
         gap: 1rem;
         grid-template-columns: auto 1fr auto;
-        background-color: #f5f5f5;
-        border-right: 1px solid #e0e0e0;
+        background-color: var(--color-light-2);
+        border-right: 1px solid var(--color-dark-4);
         padding: 0 1rem;
         min-width: 25dvw;
     }

@@ -64,13 +64,15 @@ const daysOfWeek = () => [
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--color-dark-4);
+    border-radius: var(--size-1);
+    /* background-color: var(--color-dark-0); */
+    /* color: var(--color-dark-4); */
 }
 
 .day__header {
-    background-color: #f5f5f5;
     font-weight: bold;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--color-dark-4);
 }
 
 .day__header, .day__body {
@@ -86,8 +88,9 @@ const daysOfWeek = () => [
 }
 
 .day__body__item--today {
-    background-color: #f0f0f0;
-    border-radius: 1rem;
+    background-color: var(--color-dark-0);
+    color: #fff;
+    border-radius: var(--size-3);
     margin: 0.5rem;
     font-weight: bold;
 }
