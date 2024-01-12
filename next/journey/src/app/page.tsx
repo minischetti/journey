@@ -4,6 +4,7 @@ import Calendar from "./Calendar";
 import * as Types from "./types";
 import { Command } from "cmdk";
 import { ItemsContext, ItemsProvider } from "./context";
+import { Tag as TagIcon } from "@phosphor-icons/react";
 
 const Popup = ({ children }: { children: JSX.Element }) => {
     return (
@@ -56,7 +57,7 @@ function Item({ name, description, status, items, tags }: Types.Item) {
             <p>{description}</p>
             <p>{status}</p>
             {items && items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
-            {tags && tags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
+            {tags && tags.map((tag, tagIndex) => <Tag key={tagIndex} name={tag} />)}
         </div>
     );
 }
@@ -78,6 +79,22 @@ function Side() {
     return (
         <div>
             <Calendar />
+        </div>
+    );
+}
+
+function Tags({children}: {children: JSX.Element[]}) {
+    return (
+        <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">
+            {children}
+        </div>
+    );
+}
+
+function Tag({ name }: { name: string }) {
+    return (
+        <div className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600 items-center">
+            <h2>{name}</h2>
         </div>
     );
 }
@@ -117,9 +134,12 @@ function App() {
 
     const formSubmit = (e: any) => {
         e.preventDefault();
+        if (!e.target.name.value) {
+            return;
+        }
         const newItem: Types.Item = {
             name: e.target.name.value,
-            tags: e.target.tags.value.split(","),
+            tags: composeTags,
             // description: e.target.description.value,
         };
         setItems([...items, newItem]);
@@ -186,7 +206,7 @@ function App() {
       <ItemsProvider>
         <div className="flex flex-row">
             <Side />
-            {tags.map((tag, tagIndex) => (
+            {/* {tags.map((tag, tagIndex) => (
                 <Accordion key={tagIndex} title={tag}>
                     {items
                         .filter((item) => item.tags?.includes(tag))
@@ -194,11 +214,10 @@ function App() {
                             <Item key={itemIndex} {...item} />
                         ))}
                 </Accordion>
-            ))}
+            ))} */}
             <div>
-                <form onSubmit={formSubmit} className="flex gap-2">
-                    <Input name="name" placeholder="Name" onChange={(e) => setComposeTitle(e.target.value)} />
-                    <Input name="tags" placeholder="Tags" onChange={updateTags} />
+                <form onSubmit={formSubmit} className="flex flex-col gap-2">
+                    <Input name="name" placeholder="Enter an item name..." onChange={(e) => setComposeTitle(e.target.value)} />
                     {/* <Popup>
                         <div className="flex flex-col gap-2">
                             <h2>{composeTitle}</h2>
@@ -206,36 +225,21 @@ function App() {
                             <button onClick={closeItem}>Close</button>
                         </div>
                     </Popup> */}
-                    {composeTags && composeTags.length && (
-                        <div className="flex gap-2 p-2 rounded-md bg-zinc-800">
-                            {composeTags.map((tag, tagIndex) => (
-                                <span className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600" key={tagIndex}>
-                                    <span>{tag}</span>
-                                    <span className="cursor-pointer" onClick={removeTag(tagIndex)}>x</span>
-                                </span>
-                            ))}
-                        </div>
-                    )}
+                    <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">
+                        {composeTags.map((tag, tagIndex) => (
+                            <span className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600 items-center" key={tagIndex}>
+                                <span>{tag}</span>
+                                <span className="cursor-pointer" onClick={removeTag(tagIndex)}>x</span>
+                            </span>
+                        ))}
+                        {/* Clear the input when the user presses enter */}
+                        <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                    </div>
                     <button type="submit">Create</button>
                 </form>
                 {items.map((item, itemIndex) => (
                     <Item key={itemIndex} {...item} />
                 ))}
-                <Command.Dialog open={showCommand} onOpenChange={setShowCommand} label="Global Command Menu">
-                    <Command.Input />
-                    <Command.List>
-                        <Command.Empty>No results found.</Command.Empty>
-
-                        <Command.Group heading="Letters">
-                            <Command.Item>a</Command.Item>
-                            <Command.Item>b</Command.Item>
-                            <Command.Separator />
-                            <Command.Item>c</Command.Item>
-                        </Command.Group>
-                        {/* Command item for adding an item */}
-                        <Command.Item>Apple</Command.Item>
-                    </Command.List>
-                </Command.Dialog>
             </div>
         </div>
       </ItemsProvider>
