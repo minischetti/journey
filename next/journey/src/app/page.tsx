@@ -120,17 +120,17 @@ function App() {
         setTags(getTagsFromItems(items));
     }, [items]);
 
-    useEffect(() => {
-        const down = (e: KeyboardEvent) => {
-            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault();
-                setShowCommand((open) => !open);
-            }
-        };
+    // useEffect(() => {
+    //     const down = (e: KeyboardEvent) => {
+    //         if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+    //             e.preventDefault();
+    //             setShowCommand((open) => !open);
+    //         }
+    //     };
 
-        document.addEventListener("keydown", down);
-        return () => document.removeEventListener("keydown", down);
-    }, []);
+    //     document.addEventListener("keydown", down);
+    //     return () => document.removeEventListener("keydown", down);
+    // }, []);
 
     const formSubmit = (e: any) => {
         e.preventDefault();
@@ -145,12 +145,6 @@ function App() {
         setItems([...items, newItem]);
         setComposeTitle("");
         setComposeTags([]);
-    };
-
-    const removeList = (index: number) => {
-        const newLists = [...items];
-        newLists.splice(index, 1);
-        setItems(newLists);
     };
 
     const updateTags = (e: any) => {
@@ -175,32 +169,32 @@ function App() {
         setComposeTags(newTags);
     }
 
-    const openItem = (item: Types.Item) => () => {
-        setSelectedItem(item);
-    }
+    // const openItem = (item: Types.Item) => () => {
+    //     setSelectedItem(item);
+    // }
 
-    const closeItem = () => {
-        setSelectedItem(null);
-    }
+    // const closeItem = () => {
+    //     setSelectedItem(null);
+    // }
 
-    const ItemPopup = () => {
-        return (
-            <Popup>
-                <div className="flex flex-col gap-2">
-                    <h2>{selectedItem?.name}</h2>
-                    <p>{selectedItem?.description}</p>
-                    <p>{selectedItem?.status}</p>
-                    {selectedItem?.items && selectedItem?.items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
-                    {selectedItem?.tags && selectedItem?.tags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
-                    <button onClick={closeItem}>Close</button>
-                </div>
-            </Popup>
-        );
-    }
+    // const ItemPopup = () => {
+    //     return (
+    //         <Popup>
+    //             <div className="flex flex-col gap-2">
+    //                 <h2>{selectedItem?.name}</h2>
+    //                 <p>{selectedItem?.description}</p>
+    //                 <p>{selectedItem?.status}</p>
+    //                 {selectedItem?.items && selectedItem?.items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
+    //                 {selectedItem?.tags && selectedItem?.tags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
+    //                 <button onClick={closeItem}>Close</button>
+    //             </div>
+    //         </Popup>
+    //     );
+    // }
 
-    if (selectedItem) {
-        return <ItemPopup />;
-    }
+    // if (selectedItem) {
+    //     return <ItemPopup />;
+    // }
 
     return (
       <ItemsProvider>
@@ -215,7 +209,7 @@ function App() {
                         ))}
                 </Accordion>
             ))} */}
-            <div>
+            <div className="flex flex-col gap-2 p-2 rounded-md bg-zinc-800">
                 <form onSubmit={formSubmit} className="flex flex-col gap-2">
                     <Input name="name" placeholder="Enter an item name..." onChange={(e) => setComposeTitle(e.target.value)} />
                     {/* <Popup>
@@ -235,7 +229,7 @@ function App() {
                         {/* Clear the input when the user presses enter */}
                         <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
                     </div>
-                    <button type="submit">Create</button>
+                    <Button type="submit" className="bg-zinc-600 rounded-md p-2">Create</Button>
                 </form>
                 {items.map((item, itemIndex) => (
                     <Item key={itemIndex} {...item} />
@@ -243,6 +237,14 @@ function App() {
             </div>
         </div>
       </ItemsProvider>
+    );
+}
+
+function Button({ children, onClick }: { children: JSX.Element, onClick: () => void }) {
+    return (
+        <button onClick={onClick} className="bg-zinc-600 rounded-md p-2">
+            {children}
+        </button>
     );
 }
 
