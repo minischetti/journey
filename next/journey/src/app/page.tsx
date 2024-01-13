@@ -4,41 +4,41 @@ import Calendar from "./Calendar";
 import * as Types from "./types";
 import { Command } from "cmdk";
 import { ItemsContext, ItemsProvider } from "./context";
-import { Tag as TagIcon } from "@phosphor-icons/react";
+import { Tag as TagIcon, Plus } from "@phosphor-icons/react";
 
 const Popup = ({ children }: { children: JSX.Element }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="bg-white rounded-md p-2">{children}</div>
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="bg-white rounded-md p-2">{children}</div>
         </div>
     );
-}
-
-const Accordion = ({ title, children }: { title: string, children: JSX.Element }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleAccordion = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
-
-  return (
-    <div className="border border-gray-400 rounded-md">
-      <div onClick={toggleAccordion} className="flex justify-between p-2 cursor-pointer">
-        <h2>{title}</h2>
-        <button>{isOpen ? "-" : "+"}</button>
-      </div>
-      {isOpen && (
-        <div className="m-2">
-          <hr className="m-2"></hr>
-          {children}
-        </div>
-      )}
-    </div>
-  );
 };
 
-function Input({ name, placeholder, onChange }: { name: string, placeholder: string, onChange: (e: any) => void }) {
+const Accordion = ({ title, children }: { title: string; children: JSX.Element }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleAccordion = () => {
+        setIsOpen((prevIsOpen) => !prevIsOpen);
+    };
+
+    return (
+        <div className="border border-gray-400 rounded-md">
+            <div onClick={toggleAccordion} className="flex justify-between p-2 cursor-pointer">
+                <h2>{title}</h2>
+                <button>{isOpen ? "-" : "+"}</button>
+            </div>
+            {isOpen && (
+                <div className="m-2">
+                    <hr className="m-2"></hr>
+                    {children}
+                </div>
+            )}
+        </div>
+    );
+};
+
+function Input({ name, placeholder, onChange }: { name: string; placeholder: string; onChange: (e: any) => void }) {
     return (
         <input
             name={name}
@@ -48,7 +48,6 @@ function Input({ name, placeholder, onChange }: { name: string, placeholder: str
         />
     );
 }
-
 
 function Item({ name, description, status, items, tags }: Types.Item) {
     return (
@@ -83,12 +82,8 @@ function Side() {
     );
 }
 
-function Tags({children}: {children: JSX.Element[]}) {
-    return (
-        <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">
-            {children}
-        </div>
-    );
+function Tags({ children }: { children: JSX.Element[] }) {
+    return <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">{children}</div>;
 }
 
 function Tag({ name }: { name: string }) {
@@ -106,14 +101,12 @@ function App() {
     const [composeTitle, setComposeTitle] = useState("");
     const [composeTags, setComposeTags] = useState<string[]>([]);
 
-
     const getTagsFromItems = (items: Types.Item[]) => {
         const tags = items.map((item) => item.tags).flat();
         const uniqueTags = [...new Set(tags)];
         return uniqueTags;
-    }
+    };
     const [tags, setTags] = useState(getTagsFromItems(items));
-
 
     // When items change, update the tags
     useEffect(() => {
@@ -161,13 +154,13 @@ function App() {
             }
             e.target.value = "";
         }
-    }
+    };
 
     const removeTag = (index: number) => () => {
         const newTags = [...composeTags];
         newTags.splice(index, 1);
         setComposeTags(newTags);
-    }
+    };
 
     // const openItem = (item: Types.Item) => () => {
     //     setSelectedItem(item);
@@ -197,10 +190,11 @@ function App() {
     // }
 
     return (
-      <ItemsProvider>
-        <div className="flex flex-row">
-            <Side />
-            {/* {tags.map((tag, tagIndex) => (
+        <div>
+            <h1 className="text-4xl">Journey</h1>
+            <div className="flex flex-row">
+                <Side />
+                {/* {tags.map((tag, tagIndex) => (
                 <Accordion key={tagIndex} title={tag}>
                     {items
                         .filter((item) => item.tags?.includes(tag))
@@ -209,40 +203,50 @@ function App() {
                         ))}
                 </Accordion>
             ))} */}
-            <div className="flex flex-col gap-2 p-2 rounded-md bg-zinc-800">
-                <form onSubmit={formSubmit} className="flex flex-col gap-2">
-                    <Input name="name" placeholder="Enter an item name..." onChange={(e) => setComposeTitle(e.target.value)} />
-                    {/* <Popup>
+                <Plus />
+                <div className="flex flex-col gap-2 p-2 rounded-md bg-zinc-800">
+                    <form onSubmit={formSubmit} className="flex flex-col gap-2">
+                        <Input name="name" placeholder="Enter an item name..." onChange={(e) => setComposeTitle(e.target.value)} />
+                        {/* <Popup>
                         <div className="flex flex-col gap-2">
                             <h2>{composeTitle}</h2>
                             <p>{composeTags}</p>
                             <button onClick={closeItem}>Close</button>
                         </div>
                     </Popup> */}
-                    <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">
-                        {composeTags.map((tag, tagIndex) => (
-                            <span className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600 items-center" key={tagIndex}>
-                                <span>{tag}</span>
-                                <span className="cursor-pointer" onClick={removeTag(tagIndex)}>x</span>
+                        <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">
+                            {composeTags.map((tag, tagIndex) => (
+                                <span className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600 items-center" key={tagIndex}>
+                                    <span>{tag}</span>
+                                    <span className="cursor-pointer" onClick={removeTag(tagIndex)}>
+                                        x
+                                    </span>
+                                </span>
+                            ))}
+                            {/* Clear the input when the user presses enter */}
+                            <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                        </div>
+                        <Button type="submit">
+                            <span className="flex gap-1 items-center">
+                                <span>Add</span>
+                                <Plus />
                             </span>
-                        ))}
-                        {/* Clear the input when the user presses enter */}
-                        <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
-                    </div>
-                    <Button type="submit" className="bg-zinc-600 rounded-md p-2">Create</Button>
-                </form>
-                {items.map((item, itemIndex) => (
-                    <Item key={itemIndex} {...item} />
-                ))}
+                        </Button>
+                    </form>
+                </div>
+                <div>
+                    {items.map((item, itemIndex) => (
+                        <Item key={itemIndex} {...item} />
+                    ))}
+                </div>
             </div>
         </div>
-      </ItemsProvider>
     );
 }
 
-function Button({ children, onClick }: { children: JSX.Element, onClick: () => void }) {
+function Button({ type, children, onClick }: { type: string; children: JSX.Element; onClick: () => void }) {
     return (
-        <button onClick={onClick} className="bg-zinc-600 rounded-md p-2">
+        <button type={type} onClick={onClick} className="bg-zinc-600 rounded-md p-2">
             {children}
         </button>
     );

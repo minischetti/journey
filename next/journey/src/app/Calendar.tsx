@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as datefns from "date-fns";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 const Calendar = () => {
     const [date, setDate] = useState(new Date());
@@ -36,6 +37,11 @@ const Calendar = () => {
 
     return (
         <div className="bg-zinc-800 p-3 rounded-md">
+            <div className="flex justify-between p-2">
+                <button onClick={previousMonth}><CaretLeft/></button>
+                <span className="text-2xl font-bold text-center">{currentMonth()}</span>
+                <button onClick={nextMonth}><CaretRight/></button>
+            </div>
             <div className="grid grid-cols-7 font-bold">
                 {daysOfWeek().map((dayOfWeek) => (
                     <div className="flex content-center justify-center p-2" key={dayOfWeek}>
