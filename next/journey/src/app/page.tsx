@@ -4,7 +4,7 @@ import Calendar from "./Calendar";
 import * as Types from "./types";
 import { Command } from "cmdk";
 import { ItemsContext, ItemsProvider } from "./context";
-import { Tag as TagIcon, Plus, X } from "@phosphor-icons/react";
+import { Tag as TagIcon, Plus, X, Subtract, Eye, EyeClosed } from "@phosphor-icons/react";
 
 const AppContext = createContext({});
 const { Provider } = AppContext;
@@ -32,7 +32,7 @@ const Popup = ({ children }: { children: JSX.Element }) => {
     );
 };
 
-const Accordion = ({ title, children }: { title: string; children: JSX.Element }) => {
+const Accordion = ({ title, children, variant }: { title: string; children: JSX.Element | JSX.Element[]; variant?: Variants }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleAccordion = () => {
@@ -40,10 +40,10 @@ const Accordion = ({ title, children }: { title: string; children: JSX.Element }
     };
 
     return (
-        <div className="border border-gray-400 rounded-md">
+        <div className={`border border-zinc-600 bg-zinc-700 rounded-md ${variant}`}>
             <div onClick={toggleAccordion} className="flex justify-between p-2 cursor-pointer">
                 <h2>{title}</h2>
-                <button>{isOpen ? "-" : "+"}</button>
+                <button>{isOpen ? <EyeClosed/> : <Eye/>}</button>
             </div>
             {isOpen && (
                 <div className="m-2">
@@ -55,7 +55,7 @@ const Accordion = ({ title, children }: { title: string; children: JSX.Element }
     );
 };
 
-function Input({ label, name, placeholder, onChange }: { label: string; name: string; placeholder: string; onChange: (e: any) => void }) {
+function Input({ label, name, placeholder, onChange, variant = Variants.default }: { label: string; name: string; placeholder: string; onChange: (e: any) => void; variant?: Variants }) {
     return (
         <div className="flex flex-col gap-1">
             <Label>{label}</Label>
@@ -63,7 +63,7 @@ function Input({ label, name, placeholder, onChange }: { label: string; name: st
                 name={name}
                 placeholder={placeholder}
                 onChange={onChange}
-                className="border bg-zinc-800 border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 appearance-none"
+                className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}
             />
         </div>
     );
@@ -73,14 +73,14 @@ function Label({ children }: { children: JSX.Element }) {
     return <label className="text-xs uppercase font-bold">{children}</label>;
 }
 
-function Select({ label, name, children }: { label: string; name: string; children: JSX.Element[] }) {
+function Select({ label, name, children, variant = Variants.default }: { label: string; name: string; children: JSX.Element[]; variant?: Variants }) {
     return (
         <div className="flex flex-col gap-1">
             <Label>{label}</Label>
             <select
                 name={name}
                 value={Status.backlog}
-                className="border bg-zinc-800 border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 appearance-none">
+                className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}>
                 {children}
             </select>
         </div>
@@ -105,7 +105,7 @@ function Item({ name, description, status, items, tags }: Types.Item) {
                 <Tags>
                     <Label>Tags</Label>
                     {tags.map((tag, tagIndex) => (
-                        <Tag key={tagIndex} name={tag} />
+                        <Tag key={tagIndex} name={tag} onClose={() => {}} />
                     ))}
                 </Tags>
             )}
@@ -134,14 +134,25 @@ function Side() {
     );
 }
 
-function Tags({ children }: { children: JSX.Element[] }) {
-    return <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">{children}</div>;
+function Tags({ children, variant = Variants.default }: { children: JSX.Element[]; variant?: Variants }) {
+    return <div className={`flex flex-row gap-2 py-2 ${variant}`}>{children}</div>;
 }
 
-function Tag({ name }: { name: string }) {
+function Tag({ name, onClose }: { name: string; onClose?: () => void }) {
     return (
-        <div className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600 items-center">
+        <div className="py-1 px-2 flex gap-2 rounded-md bg-zinc-600 items-center text-sm">
             <h2>{name}</h2>
+            <button onClick={onClose}>
+                <X weight="bold" />
+            </button>
+        </div>
+    );
+}
+
+function Bar({ children }: { children: JSX.Element }) {
+    return (
+        <div className="flex flex-row justify-center items-center p-2">
+            {children}
         </div>
     );
 }
@@ -246,21 +257,18 @@ function App() {
 
     return (
         <div>
-            <h1 className="text-4xl">Journey</h1>
-            <div className="flex flex-row">
-                <Side />
-                {/* {tags.map((tag, tagIndex) => (
-                <Accordion key={tagIndex} title={tag}>
-                    {items
-                        .filter((item) => item.tags?.includes(tag))
-                        .map((item, itemIndex) => (
-                            <Item key={itemIndex} {...item} />
-                        ))}
-                </Accordion>
-            ))} */}
-                <div className="flex flex-col gap-2 p-2 rounded-md bg-zinc-800">
-                    <form onSubmit={formSubmit} className="flex flex-col gap-2">
-                        <Input label="name" placeholder="Enter an item name..." />
+            <header className="flex flex-row justify-between items-center p-2">
+                <h1 className="text-4xl">Journey</h1>
+            </header>
+            <Bar>
+            <div className="flex flex-col gap-2 p-2 rounded-md bg-zinc-800">
+                    <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
+                        <div className="flex gap-2">
+                            <Input placeholder="Enter an item name..." />
+                            <Button type="submit" variant={Variants.circle}>
+                                <Plus weight="bold" />
+                            </Button>
+                        </div>
                         <Accordion title="More...">
                             {/* <Popup>
                         <div className="flex flex-col gap-2">
@@ -277,25 +285,30 @@ function App() {
                                     </option>
                                 ))}
                             </Select>
-                            <div className="flex gap-2 p-2 rounded-md bg-zinc-800 items-center text-sm">
+                            <div>
+                            <Label>Tags</Label>
+                            <Tags>
                                 {composeTags.map((tag, tagIndex) => (
-                                    <span className="py-1 px-3 flex gap-1 rounded-md bg-zinc-600 items-center" key={tagIndex}>
-                                        <span>{tag}</span>
-                                        <span className="cursor-pointer" onClick={removeTag(tagIndex)}>
-                                            <X weight="bold" />
-                                        </span>
-                                    </span>
+                                    <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
                                 ))}
                                 <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                                </Tags>
                             </div>
                         </Accordion>
-                        <Button type="submit" variant={Variants.circle}>
-                            <span className="flex gap-1 items-center">
-                                <Plus weight="bold" />
-                            </span>
-                        </Button>
                     </form>
                 </div>
+            </Bar>
+            <div className="flex flex-row">
+                <Side />
+                {/* {tags.map((tag, tagIndex) => (
+                <Accordion key={tagIndex} title={tag}>
+                    {items
+                        .filter((item) => item.tags?.includes(tag))
+                        .map((item, itemIndex) => (
+                            <Item key={itemIndex} {...item} />
+                        ))}
+                </Accordion>
+            ))} */}
                 <div>
                     {items.map((item, itemIndex) => (
                         <Item key={itemIndex} {...item} />
@@ -307,12 +320,12 @@ function App() {
 }
 
 enum Variants {
-    default = "rounded-md",
+    default = "rounded-md bg-transparent",
     circle = "rounded-full",
     outline = "border border-zinc-600",
     underline = "border-b border-zinc-600",
-    ghost = "bg-transparent",
 }
+
 function Button({
     type,
     children,
@@ -325,7 +338,7 @@ function Button({
     variant?: Variants;
 }) {
     return (
-        <button type={type} onClick={onClick} className={`flex gap-1 items-center p-2 bg-zinc-600 text-zinc-100 ${variant}`}>
+        <button type={type} onClick={onClick} className={`flex gap-1 items-center p-2 text-zinc-100 ${variant}`}>
             {children}
         </button>
     );
