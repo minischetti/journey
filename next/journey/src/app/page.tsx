@@ -1,10 +1,11 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
-import Calendar from "./Calendar";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import Calendar from "./features/Calendar";
 import * as Types from "./types";
 import { Command } from "cmdk";
 import { ItemsContext, ItemsProvider } from "./context";
 import { Tag as TagIcon, Plus, X, Subtract, Eye, EyeClosed } from "@phosphor-icons/react";
+import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-ui/react";
 
 const AppContext = createContext({});
 const { Provider } = AppContext;
@@ -40,10 +41,10 @@ const Accordion = ({ title, children, variant }: { title: string; children: JSX.
     };
 
     return (
-        <div className={`border border-zinc-600 bg-zinc-700 rounded-md ${variant}`}>
+        <div className={`cursor-pointer select-none border border-zinc-600 bg-zinc-700 rounded-md ${variant}`}>
             <div onClick={toggleAccordion} className="flex justify-between p-2 cursor-pointer">
                 <h2>{title}</h2>
-                <button>{isOpen ? <EyeClosed/> : <Eye/>}</button>
+                <button>{isOpen ? <EyeClosed /> : <Eye />}</button>
             </div>
             {isOpen && (
                 <div className="m-2">
@@ -55,7 +56,19 @@ const Accordion = ({ title, children, variant }: { title: string; children: JSX.
     );
 };
 
-function Input({ label, name, placeholder, onChange, variant = Variants.default }: { label: string; name: string; placeholder: string; onChange: (e: any) => void; variant?: Variants }) {
+function Input({
+    label,
+    name,
+    placeholder,
+    onChange,
+    variant = Variants.default,
+}: {
+    label: string;
+    name: string;
+    placeholder: string;
+    onChange: (e: any) => void;
+    variant?: Variants;
+}) {
     return (
         <div className="flex flex-col gap-1">
             <Label>{label}</Label>
@@ -77,10 +90,7 @@ function Select({ label, name, children, variant = Variants.default }: { label: 
     return (
         <div className="flex flex-col gap-1">
             <Label>{label}</Label>
-            <select
-                name={name}
-                value={Status.backlog}
-                className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}>
+            <select name={name} value={Status.backlog} className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}>
                 {children}
             </select>
         </div>
@@ -113,19 +123,6 @@ function Item({ name, description, status, items, tags }: Types.Item) {
     );
 }
 
-// function List({ name, description, items }: List) {
-//     return (
-//         <div>
-//             <h2>{name}</h2>
-//             <p>{description}</p>
-//             {items &&
-//                 items.map((item, itemIndex) => (
-//                     <Item key={itemIndex} name={item.name} description={item.description} status={item.status} items={item.items} tags={item.tags} />
-//                 ))}
-//         </div>
-//     );
-// }
-
 function Side() {
     return (
         <div>
@@ -150,19 +147,23 @@ function Tag({ name, onClose }: { name: string; onClose?: () => void }) {
 }
 
 function Bar({ children }: { children: JSX.Element }) {
-    return (
-        <div className="flex flex-row justify-center items-center p-2">
-            {children}
-        </div>
-    );
+    return <div className="flex flex-row justify-center items-center p-8">{children}</div>;
 }
 
 function App() {
     const [items, setItems] = useState<Types.Item[]>([]);
-    const [showCommand, setShowCommand] = useState(false);
     const [selectedItem, setSelectedItem] = useState<Types.Item | null>(null);
     const [composeTitle, setComposeTitle] = useState("");
+    const [composeDescription, setComposeDescription] = useState("");
     const [composeTags, setComposeTags] = useState<string[]>([]);
+    const [showCompose, setShowCompose] = useState(false);
+    const {refs, floatingStyles} = useFloating({
+        middleware: [
+            autoPlacement(),
+            shift(),
+            flip()
+        ]
+    });
 
     const getTagsFromItems = (items: Types.Item[]) => {
         const tags = items.map((item) => item.tags).flat();
@@ -176,18 +177,6 @@ function App() {
         setTags(getTagsFromItems(items));
     }, [items]);
 
-    // useEffect(() => {
-    //     const down = (e: KeyboardEvent) => {
-    //         if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-    //             e.preventDefault();
-    //             setShowCommand((open) => !open);
-    //         }
-    //     };
-
-    //     document.addEventListener("keydown", down);
-    //     return () => document.removeEventListener("keydown", down);
-    // }, []);
-
     const formSubmit = (e: any) => {
         e.preventDefault();
         if (!e.target.name.value) {
@@ -196,10 +185,11 @@ function App() {
         const newItem: Types.Item = {
             name: e.target.name.value,
             tags: composeTags,
-            // description: e.target.description.value,
+            description: e.target.description.value,
         };
         setItems([...items, newItem]);
         setComposeTitle("");
+        setComposeDescription("");
         setComposeTags([]);
     };
 
@@ -228,28 +218,39 @@ function App() {
         setComposeTags(newTags);
     };
 
-    // const openItem = (item: Types.Item) => () => {
-    //     setSelectedItem(item);
-    // }
+    const openItem = (item: Types.Item) => () => {
+        setSelectedItem(item);
+    };
 
-    // const closeItem = () => {
-    //     setSelectedItem(null);
-    // }
+    const closeItem = () => {
+        setSelectedItem(null);
+    };
 
-    // const ItemPopup = () => {
-    //     return (
-    //         <Popup>
-    //             <div className="flex flex-col gap-2">
-    //                 <h2>{selectedItem?.name}</h2>
-    //                 <p>{selectedItem?.description}</p>
-    //                 <p>{selectedItem?.status}</p>
-    //                 {selectedItem?.items && selectedItem?.items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
-    //                 {selectedItem?.tags && selectedItem?.tags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
-    //                 <button onClick={closeItem}>Close</button>
-    //             </div>
-    //         </Popup>
-    //     );
-    // }
+    const ItemPopup = () => {
+        return (
+            <Popup>
+                <div className="flex flex-col gap-2">
+                    <h2>{selectedItem?.name}</h2>
+                    <p>{selectedItem?.description}</p>
+                    <p>{selectedItem?.status}</p>
+                    {selectedItem?.items && selectedItem?.items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
+                    {selectedItem?.tags && selectedItem?.tags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
+                    <button onClick={closeItem}>Close</button>
+                </div>
+            </Popup>
+        );
+    };
+
+    const Popover = React.forwardRef(({ children, style }: { children: JSX.Element; style: any }, ref: any) => {
+
+        const [isOpen, setIsOpen] = useState(false);
+        return (
+            <div ref={ref} className="relative">
+                <button onClick={() => setIsOpen((prevIsOpen) => !prevIsOpen)}>Open</button>
+                {isOpen && children}
+            </div>
+        );
+    });
 
     // if (selectedItem) {
     //     return <ItemPopup />;
@@ -257,11 +258,13 @@ function App() {
 
     return (
         <div>
-            <header className="flex flex-row justify-between items-center p-2">
-                <h1 className="text-4xl">Journey</h1>
-            </header>
-            <Bar>
-            <div className="flex flex-col gap-2 p-2 rounded-md bg-zinc-800">
+            <Bar className="flex flex-row justify-between items-center p-2">
+                <h1 className="text-4xl w-full text-center">Journey</h1>
+                <button type="button" variant={Variants.circle} ref={refs.setReference}>
+                    <Plus weight="bold" />
+                </button>
+            </Bar>
+                <Popover ref={refs.setFloating} style={floatingStyles}>
                     <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
                         <div className="flex gap-2">
                             <Input placeholder="Enter an item name..." />
@@ -270,13 +273,6 @@ function App() {
                             </Button>
                         </div>
                         <Accordion title="More...">
-                            {/* <Popup>
-                        <div className="flex flex-col gap-2">
-                            <h2>{composeTitle}</h2>
-                            <p>{composeTags}</p>
-                            <button>Close</button>
-                        </div>
-                    </Popup> */}
                             <Input label="description" placeholder="Enter a description..." />
                             <Select label="status" name="status">
                                 {Object.values(Status).map((status, statusIndex) => (
@@ -286,29 +282,19 @@ function App() {
                                 ))}
                             </Select>
                             <div>
-                            <Label>Tags</Label>
-                            <Tags>
-                                {composeTags.map((tag, tagIndex) => (
-                                    <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
-                                ))}
-                                <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                                <Label>Tags</Label>
+                                <Tags>
+                                    {composeTags.map((tag, tagIndex) => (
+                                        <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
+                                    ))}
+                                    <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
                                 </Tags>
                             </div>
                         </Accordion>
                     </form>
-                </div>
-            </Bar>
+                </Popover>
             <div className="flex flex-row">
                 <Side />
-                {/* {tags.map((tag, tagIndex) => (
-                <Accordion key={tagIndex} title={tag}>
-                    {items
-                        .filter((item) => item.tags?.includes(tag))
-                        .map((item, itemIndex) => (
-                            <Item key={itemIndex} {...item} />
-                        ))}
-                </Accordion>
-            ))} */}
                 <div>
                     {items.map((item, itemIndex) => (
                         <Item key={itemIndex} {...item} />
@@ -321,7 +307,7 @@ function App() {
 
 enum Variants {
     default = "rounded-md bg-transparent",
-    circle = "rounded-full",
+    circle = "rounded-full border-2 border-zinc-600",
     outline = "border border-zinc-600",
     underline = "border-b border-zinc-600",
 }
