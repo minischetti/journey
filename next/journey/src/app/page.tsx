@@ -44,28 +44,28 @@ function App() {
     return (
         <ItemsProvider>
             <>
-            <Bar>
-                <h1 className="text-4xl w-full text-center">Journey</h1>
-                <button type="button" variant={Variants.circle}>
-                    <Plus weight="bold" />
-                </button>
-            </Bar>
-            {/* <Timeline items={items} /> */}
-            <div className="flex flex-row gap-2">
-                <Side />
-                <List>
-                    {items.map((item, itemIndex) => (
-                        <>
-                            <Item key={itemIndex} {...item}>
-                                {item.tags.map((tag, tagIndex) => (
-                                    <Tag key={tagIndex} name={tag} />
-                                ))}
-                            </Item>
-                        </>
-                    ))}
-                </List>
-                <ComposeForm />
-            </div>
+                <Bar>
+                    <h1 className="text-4xl w-full text-center">Journey</h1>
+                    <button type="button" variant={Variants.circle}>
+                        <Plus weight="bold" />
+                    </button>
+                </Bar>
+                {/* <Timeline items={items} /> */}
+                <div className="flex flex-row gap-2">
+                    <Side />
+                    <List>
+                        {items.map((item, itemIndex) => (
+                            <>
+                                <Item key={itemIndex} {...item}>
+                                    {item.tags.map((tag, tagIndex) => (
+                                        <Tag key={tagIndex} name={tag} />
+                                    ))}
+                                </Item>
+                            </>
+                        ))}
+                    </List>
+                    <ComposeForm />
+                </div>
             </>
         </ItemsProvider>
     );
