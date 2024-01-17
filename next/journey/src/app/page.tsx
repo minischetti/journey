@@ -38,36 +38,56 @@ function Button({
 }
 
 function App() {
-    const { items } = useContext(ItemsContext);
+    const [items, setItems] = useState<Types.Item[]>([]);
+
     const [selectedItem, setSelectedItem] = useState<Types.Item | null>(null);
 
+    const add = (item: Types.Item) => {
+        setItems([...items, item]);
+        console.log(items);
+    }
+    const remove = (item: Types.Item) => {
+        setItems(items.filter((i) => i !== item));
+        console.log(items);
+    }
+
+    useEffect(() => {
+        if (items.length) {
+            setSelectedItem(items[0]);
+        }
+        console.log("items", items);
+    }, [items]);
+
     return (
-        <ItemsProvider>
+        <ItemsContext.Provider value={{ items, add, remove }}>
             <>
+                {/* Header */}
                 <Bar>
                     <h1 className="text-4xl w-full text-center">Journey</h1>
                     <button type="button" variant={Variants.circle}>
                         <Plus weight="bold" />
                     </button>
                 </Bar>
-                {/* <Timeline items={items} /> */}
+
+                {/* Body */}
                 <div className="flex flex-row gap-2">
+                    {/* Left */}
                     <Side />
+                    {/* Center */}
                     <List>
                         {items.map((item, itemIndex) => (
-                            <>
-                                <Item key={itemIndex} {...item}>
-                                    {item.tags.map((tag, tagIndex) => (
-                                        <Tag key={tagIndex} name={tag} />
-                                    ))}
-                                </Item>
-                            </>
+                            <Item key={itemIndex} {...item}>
+                                {item.tags.map((tag, tagIndex) => (
+                                    <Tag key={tagIndex} name={tag} />
+                                ))}
+                            </Item>
                         ))}
                     </List>
+                    {/* Right */}
                     <ComposeForm />
                 </div>
             </>
-        </ItemsProvider>
+        </ItemsContext.Provider>
     );
 }
 

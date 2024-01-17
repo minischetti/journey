@@ -16,8 +16,14 @@ const { Provider } = ItemsContext;
 const ItemsProvider = ({ children }: { children: JSX.Element }) => {
     const [items, setItems] = useState<Types.Item[]>([]);
 
-    const add = (item: Types.Item) => setItems([...items, item]);
-    const remove = (item: Types.Item) => setItems(items.filter((i) => i !== item));
+    const add = (item: Types.Item) => {
+        setItems([...items, item]);
+        console.log(items);
+    }
+    const remove = (item: Types.Item) => {
+        setItems(items.filter((i) => i !== item));
+        console.log(items);
+    }
 
     const value = { items, add, remove };
 

@@ -91,8 +91,7 @@ export function ComposeForm() {
                 ))}
             </Select>
             <div>
-                <Label>Tags</Label>
-                <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                <Input label="Tags" name="tags" placeholder="Enter tags..." onChange={updateTags} />
                 {composeTags && (
                     <Tags>
                         {composeTags.map((tag, tagIndex) => (
