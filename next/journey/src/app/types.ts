@@ -1,8 +1,10 @@
 enum Status {
-    OPEN = 'OPEN',
-    IN_PROGRESS = 'IN_PROGRESS',
-    DONE = 'DONE',
-  }
+  backlog = "Backlog",
+  upcoming = "Upcoming",
+  inProgress = "In Progress",
+  cancelled = "Cancelled",
+  completed = "Completed",
+}
 
   enum Features {
     STATUS = 'STATUS',
@@ -24,4 +26,5 @@ enum Status {
     name: string
   }
 
-  export type { Item, Status, Features, Tag }
+  export type { Item, Features, Tag }
+  export { Status }

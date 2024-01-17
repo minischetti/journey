@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Types from '../types';
+import * as Types from '../../types';
 
 function Timeline({ items }: { items: Types.Item[] }) {
     // const lastItem = items[items.length - 1];
