@@ -150,6 +150,33 @@ function Bar({ children }: { children: JSX.Element }) {
     return <div className="flex flex-row justify-center items-center p-8">{children}</div>;
 }
 
+function Timeline({ items }: { items: Types.Item[] }) {
+    // const lastItem = items[items.length - 1];
+    // const restItems = items.slice(0, -1);
+
+    function Orb({ children }: { children: JSX.Element }) {
+        return (
+            <div className="grid justify-center items-center rounded-full aspect-square bg-zinc-600">{children}</div>
+        );
+    }
+    function Line() {
+        return <div className="grid justify-center items-center w-full h-0.5 bg-zinc-600"></div>;
+    }
+
+    return (
+        <div className="grid grid-flow-col items-center gap-2">
+            {items.map((item, itemIndex) => (
+                <React.Fragment key={itemIndex}>
+                    <Orb>
+                        <p>{item.name}</p>
+                    </Orb>
+                    {itemIndex !== items.length - 1 && <Line />}
+                </React.Fragment>
+            ))}
+        </div>
+    )
+}
+
 function App() {
     const [items, setItems] = useState<Types.Item[]>([]);
     const [selectedItem, setSelectedItem] = useState<Types.Item | null>(null);
@@ -157,12 +184,8 @@ function App() {
     const [composeDescription, setComposeDescription] = useState("");
     const [composeTags, setComposeTags] = useState<string[]>([]);
     const [showCompose, setShowCompose] = useState(false);
-    const {refs, floatingStyles} = useFloating({
-        middleware: [
-            autoPlacement(),
-            shift(),
-            flip()
-        ]
+    const { refs, floatingStyles } = useFloating({
+        middleware: [autoPlacement(), shift(), flip()],
     });
 
     const getTagsFromItems = (items: Types.Item[]) => {
@@ -170,12 +193,7 @@ function App() {
         const uniqueTags = [...new Set(tags)];
         return uniqueTags;
     };
-    const [tags, setTags] = useState(getTagsFromItems(items));
-
-    // When items change, update the tags
-    useEffect(() => {
-        setTags(getTagsFromItems(items));
-    }, [items]);
+    // const [tags, setTags] = useState(getTagsFromItems(items));
 
     const formSubmit = (e: any) => {
         e.preventDefault();
@@ -183,9 +201,9 @@ function App() {
             return;
         }
         const newItem: Types.Item = {
-            name: e.target.name.value,
-            tags: composeTags,
-            description: e.target.description.value,
+            name: e.target.name?.value || "",
+            tags: composeTags || [],
+            description: e.target.description?.value || "",
         };
         setItems([...items, newItem]);
         setComposeTitle("");
@@ -218,44 +236,6 @@ function App() {
         setComposeTags(newTags);
     };
 
-    const openItem = (item: Types.Item) => () => {
-        setSelectedItem(item);
-    };
-
-    const closeItem = () => {
-        setSelectedItem(null);
-    };
-
-    const ItemPopup = () => {
-        return (
-            <Popup>
-                <div className="flex flex-col gap-2">
-                    <h2>{selectedItem?.name}</h2>
-                    <p>{selectedItem?.description}</p>
-                    <p>{selectedItem?.status}</p>
-                    {selectedItem?.items && selectedItem?.items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
-                    {selectedItem?.tags && selectedItem?.tags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
-                    <button onClick={closeItem}>Close</button>
-                </div>
-            </Popup>
-        );
-    };
-
-    const Popover = React.forwardRef(({ children, style }: { children: JSX.Element; style: any }, ref: any) => {
-
-        const [isOpen, setIsOpen] = useState(false);
-        return (
-            <div ref={ref} className="relative">
-                <button onClick={() => setIsOpen((prevIsOpen) => !prevIsOpen)}>Open</button>
-                {isOpen && children}
-            </div>
-        );
-    });
-
-    // if (selectedItem) {
-    //     return <ItemPopup />;
-    // }
-
     return (
         <div>
             <Bar className="flex flex-row justify-between items-center p-2">
@@ -264,35 +244,34 @@ function App() {
                     <Plus weight="bold" />
                 </button>
             </Bar>
-                <Popover ref={refs.setFloating} style={floatingStyles}>
-                    <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
-                        <div className="flex gap-2">
-                            <Input placeholder="Enter an item name..." />
-                            <Button type="submit" variant={Variants.circle}>
-                                <Plus weight="bold" />
-                            </Button>
-                        </div>
-                        <Accordion title="More...">
-                            <Input label="description" placeholder="Enter a description..." />
-                            <Select label="status" name="status">
-                                {Object.values(Status).map((status, statusIndex) => (
-                                    <option key={statusIndex} value={status}>
-                                        {status}
-                                    </option>
-                                ))}
-                            </Select>
-                            <div>
-                                <Label>Tags</Label>
-                                <Tags>
-                                    {composeTags.map((tag, tagIndex) => (
-                                        <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
-                                    ))}
-                                    <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
-                                </Tags>
-                            </div>
-                        </Accordion>
-                    </form>
-                </Popover>
+            {/* <Timeline items={items} /> */}
+            <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
+                <div className="flex gap-2">
+                    <input name="name" placeholder="Enter an item name..." />
+                    <button type="submit" variant={Variants.circle}>
+                        <Plus weight="bold" />
+                    </button>
+                </div>
+                <Accordion title="More...">
+                    <Input label="description" placeholder="Enter a description..." />
+                    <Select label="status" name="status">
+                        {Object.values(Status).map((status, statusIndex) => (
+                            <option key={statusIndex} value={status}>
+                                {status}
+                            </option>
+                        ))}
+                    </Select>
+                    <div>
+                        <Label>Tags</Label>
+                        <Tags>
+                            {composeTags.map((tag, tagIndex) => (
+                                <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
+                            ))}
+                            <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                        </Tags>
+                    </div>
+                </Accordion>
+            </form>
             <div className="flex flex-row">
                 <Side />
                 <div>
