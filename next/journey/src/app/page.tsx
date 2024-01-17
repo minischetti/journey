@@ -17,11 +17,11 @@ const AppProvider = ({ children }: { children: JSX.Element }) => {
 };
 
 enum Status {
-    backlog = "backlog",
-    upcoming = "upcoming",
-    inProgress = "inProgress",
-    cancelled = "cancelled",
-    completed = "completed",
+    backlog = "Backlog",
+    upcoming = "Upcoming",
+    inProgress = "In Progress",
+    cancelled = "Cancelled",
+    completed = "Completed",
 }
 
 const Popup = ({ children }: { children: JSX.Element }) => {
@@ -62,12 +62,14 @@ function Input({
     placeholder,
     onChange,
     variant = Variants.default,
+    value,
 }: {
     label: string;
     name: string;
     placeholder: string;
     onChange: (e: any) => void;
     variant?: Variants;
+    value?: string;
 }) {
     return (
         <div className="flex flex-col gap-1">
@@ -76,6 +78,7 @@ function Input({
                 name={name}
                 placeholder={placeholder}
                 onChange={onChange}
+                value={value}
                 className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}
             />
         </div>
@@ -86,39 +89,42 @@ function Label({ children }: { children: JSX.Element }) {
     return <label className="text-xs uppercase font-bold">{children}</label>;
 }
 
-function Select({ label, name, children, variant = Variants.default }: { label: string; name: string; children: JSX.Element[]; variant?: Variants }) {
+function Select({ label, name, children, variant = Variants.default, value, onChange }: { label: string; name: string; children: JSX.Element[]; variant?: Variants; value?: string; onChange?: (e: any) => void }) {
     return (
         <div className="flex flex-col gap-1">
             <Label>{label}</Label>
-            <select name={name} value={Status.backlog} className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}>
+            <select name={name} className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`} value={value} onChange={onChange}>
                 {children}
             </select>
         </div>
     );
 }
 
-function Item({ name, description, status, items, tags }: Types.Item) {
+function List({ children }: { children: JSX.Element[] }) {
+    return <div className="flex flex-col gap-2 w-full">{children}</div>;
+}
+
+function Item({
+    name,
+    description,
+    status,
+    items,
+    tags,
+    children,
+}: {
+    name: string;
+    description: string;
+    status: string;
+    items: Types.Item[];
+    tags: string[];
+    children: JSX.Element[];
+}) {
+    const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="border border-gray-400 rounded-md p-2">
-            <div className="flex justify-between">
-                <div className="flex gap-2">
-                    <TagIcon weight="bold" />
-                    <Plus weight="bold" />
-                    <X weight="bold" />
-                </div>
-            </div>
-            <h2 contentEditable>{name}</h2>
-            <p contentEditable>{description}</p>
-            <p>{status}</p>
-            {items && items.map((item, itemIndex) => <Item key={itemIndex} {...item} />)}
-            {tags && (
-                <Tags>
-                    <Label>Tags</Label>
-                    {tags.map((tag, tagIndex) => (
-                        <Tag key={tagIndex} name={tag} onClose={() => {}} />
-                    ))}
-                </Tags>
-            )}
+        <div className="grid border border-gray-400 rounded-md p-4 gap-2">
+            <h2>{name}</h2>
+            <p>{description}</p>
+            <div className="flex flex-row gap-2">{children}</div>
         </div>
     );
 }
@@ -132,21 +138,14 @@ function Side() {
 }
 
 function Tags({ children, variant = Variants.default }: { children: JSX.Element[]; variant?: Variants }) {
-    return <div className={`flex flex-row gap-2 py-2 ${variant}`}>{children}</div>;
+    return <div className={`grid grid-flow-row gap-2 py-2 ${variant}`}>{children}</div>;
 }
 
-function Tag({ name, onClose }: { name: string; onClose?: () => void }) {
-    return (
-        <div className="py-1 px-2 flex gap-2 rounded-md bg-zinc-600 items-center text-sm">
-            <h2>{name}</h2>
-            <button onClick={onClose}>
-                <X weight="bold" />
-            </button>
-        </div>
-    );
+function Tag({ name }: { name: string; onClose?: () => void }) {
+    return <div className="py-1 px-2 grid grid-flow-col gap-2 rounded-md bg-zinc-600 justify-between items-center text-sm">{name}</div>;
 }
 
-function Bar({ children }: { children: JSX.Element }) {
+function Bar({ children }: { children: JSX.Element[] }) {
     return <div className="flex flex-row justify-center items-center p-8">{children}</div>;
 }
 
@@ -155,9 +154,7 @@ function Timeline({ items }: { items: Types.Item[] }) {
     // const restItems = items.slice(0, -1);
 
     function Orb({ children }: { children: JSX.Element }) {
-        return (
-            <div className="grid justify-center items-center rounded-full aspect-square bg-zinc-600">{children}</div>
-        );
+        return <div className="grid justify-center items-center rounded-full aspect-square bg-zinc-600">{children}</div>;
     }
     function Line() {
         return <div className="grid justify-center items-center w-full h-0.5 bg-zinc-600"></div>;
@@ -174,7 +171,7 @@ function Timeline({ items }: { items: Types.Item[] }) {
                 </React.Fragment>
             ))}
         </div>
-    )
+    );
 }
 
 function App() {
@@ -183,10 +180,12 @@ function App() {
     const [composeTitle, setComposeTitle] = useState("");
     const [composeDescription, setComposeDescription] = useState("");
     const [composeTags, setComposeTags] = useState<string[]>([]);
+    const [composeStatus, setComposeStatus] = useState(Status.backlog);
     const [showCompose, setShowCompose] = useState(false);
     const { refs, floatingStyles } = useFloating({
         middleware: [autoPlacement(), shift(), flip()],
     });
+    const [showTags, setShowTags] = useState(false);
 
     const getTagsFromItems = (items: Types.Item[]) => {
         const tags = items.map((item) => item.tags).flat();
@@ -195,8 +194,18 @@ function App() {
     };
     // const [tags, setTags] = useState(getTagsFromItems(items));
 
+    const resetForm = () => {
+        setComposeTitle("");
+        setComposeDescription("");
+        setComposeTags([]);
+        setComposeStatus(Status.backlog);
+    }
+
     const formSubmit = (e: any) => {
         e.preventDefault();
+
+        // TODO: validate form
+
         if (!e.target.name.value) {
             return;
         }
@@ -204,11 +213,10 @@ function App() {
             name: e.target.name?.value || "",
             tags: composeTags || [],
             description: e.target.description?.value || "",
+            status: e.target.status?.value || Status.backlog,
         };
         setItems([...items, newItem]);
-        setComposeTitle("");
-        setComposeDescription("");
-        setComposeTags([]);
+        resetForm();
     };
 
     const updateTags = (e: any) => {
@@ -238,23 +246,36 @@ function App() {
 
     return (
         <div>
-            <Bar className="flex flex-row justify-between items-center p-2">
+            <Bar>
                 <h1 className="text-4xl w-full text-center">Journey</h1>
                 <button type="button" variant={Variants.circle} ref={refs.setReference}>
                     <Plus weight="bold" />
                 </button>
             </Bar>
             {/* <Timeline items={items} /> */}
-            <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
-                <div className="flex gap-2">
-                    <input name="name" placeholder="Enter an item name..." />
-                    <button type="submit" variant={Variants.circle}>
-                        <Plus weight="bold" />
-                    </button>
-                </div>
-                <Accordion title="More...">
-                    <Input label="description" placeholder="Enter a description..." />
-                    <Select label="status" name="status">
+            <div className="flex flex-row gap-2">
+                <Side />
+                <List>
+                    {items.map((item, itemIndex) => (
+                        <>
+                            <Item key={itemIndex} {...item}>
+                                {item.tags.map((tag, tagIndex) => (
+                                    <Tag key={tagIndex} name={tag} />
+                                ))}
+                            </Item>
+                        </>
+                    ))}
+                </List>
+                <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
+                    <Input value={composeTitle} onChange={(e) => setComposeTitle(e.target.value)} name="name" label="name" placeholder="Enter a name..." />
+                    <Input
+                        value={composeDescription}
+                        onChange={(e) => setComposeDescription(e.target.value)}
+                        name="description"
+                        label="description"
+                        placeholder="Enter a description..."
+                    />
+                    <Select value={composeStatus} onChange={(e) => setComposeStatus(e.target.value)} name="status" label="status">
                         {Object.values(Status).map((status, statusIndex) => (
                             <option key={statusIndex} value={status}>
                                 {status}
@@ -263,22 +284,17 @@ function App() {
                     </Select>
                     <div>
                         <Label>Tags</Label>
-                        <Tags>
-                            {composeTags.map((tag, tagIndex) => (
-                                <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
-                            ))}
-                            <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
-                        </Tags>
+                        <Input name="tags" placeholder="Enter tags..." onChange={updateTags} />
+                        {composeTags && (
+                            <Tags>
+                                {composeTags.map((tag, tagIndex) => (
+                                    <Tag key={tagIndex} name={tag} onClose={removeTag(tagIndex)} />
+                                ))}
+                            </Tags>
+                        )}
                     </div>
-                </Accordion>
-            </form>
-            <div className="flex flex-row">
-                <Side />
-                <div>
-                    {items.map((item, itemIndex) => (
-                        <Item key={itemIndex} {...item} />
-                    ))}
-                </div>
+                    <button type="submit" style={{ display: "none" }} />
+                </form>
             </div>
         </div>
     );
@@ -287,7 +303,7 @@ function App() {
 enum Variants {
     default = "rounded-md bg-transparent",
     circle = "rounded-full border-2 border-zinc-600",
-    outline = "border border-zinc-600",
+    outline = "border border-zinc-600 rounded-md",
     underline = "border-b border-zinc-600",
 }
 

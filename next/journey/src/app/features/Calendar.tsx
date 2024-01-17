@@ -36,7 +36,7 @@ const Calendar = () => {
     const daysOfWeek = () => ["S", "M", "T", "W", "T", "F", "S"];
 
     return (
-        <div className="bg-zinc-800 p-3 rounded-md">
+        <div className=" bg-zinc-800 p-3 rounded-md">
             <div className="flex justify-between p-2">
                 <button onClick={previousMonth}><CaretLeft/></button>
                 <span className="text-2xl font-bold text-center">{currentMonth()}</span>
