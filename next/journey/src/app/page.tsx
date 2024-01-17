@@ -7,13 +7,33 @@ import { ItemsContext, ItemsProvider } from "./context";
 import { Tag as TagIcon, Plus, X, Subtract, Eye, EyeClosed } from "@phosphor-icons/react";
 import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-ui/react";
 
-const AppContext = createContext({});
+const AppContext = createContext({
+    items: [],
+    setItems: (items: Types.Item[]) => {},
+    tags: [],
+    setTags: (tags: Types.Tag[]) => {
+        console.log(tags);
+    }
+});
 const { Provider } = AppContext;
 
 const AppProvider = ({ children }: { children: JSX.Element }) => {
     const [items, setItems] = useState<Types.Item[]>([]);
+    const [tags, setTags] = useState<Types.Tag[]>([]);
 
-    return <Provider value={{ items, setItems }}>{children}</Provider>;
+
+
+    return (
+        <Provider
+            value={{
+                items,
+                setItems,
+                tags,
+                setTags,
+            }}>
+            {children}
+        </Provider>
+    );
 };
 
 enum Status {
@@ -89,11 +109,29 @@ function Label({ children }: { children: JSX.Element }) {
     return <label className="text-xs uppercase font-bold">{children}</label>;
 }
 
-function Select({ label, name, children, variant = Variants.default, value, onChange }: { label: string; name: string; children: JSX.Element[]; variant?: Variants; value?: string; onChange?: (e: any) => void }) {
+function Select({
+    label,
+    name,
+    children,
+    variant = Variants.default,
+    value,
+    onChange,
+}: {
+    label: string;
+    name: string;
+    children: JSX.Element[];
+    variant?: Variants;
+    value?: string;
+    onChange?: (e: any) => void;
+}) {
     return (
         <div className="flex flex-col gap-1">
             <Label>{label}</Label>
-            <select name={name} className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`} value={value} onChange={onChange}>
+            <select
+                name={name}
+                className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}
+                value={value}
+                onChange={onChange}>
                 {children}
             </select>
         </div>
@@ -116,7 +154,7 @@ function Item({
     description: string;
     status: string;
     items: Types.Item[];
-    tags: string[];
+    tags: Types.Tag[];
     children: JSX.Element[];
 }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -149,31 +187,6 @@ function Bar({ children }: { children: JSX.Element[] }) {
     return <div className="flex flex-row justify-center items-center p-8">{children}</div>;
 }
 
-function Timeline({ items }: { items: Types.Item[] }) {
-    // const lastItem = items[items.length - 1];
-    // const restItems = items.slice(0, -1);
-
-    function Orb({ children }: { children: JSX.Element }) {
-        return <div className="grid justify-center items-center rounded-full aspect-square bg-zinc-600">{children}</div>;
-    }
-    function Line() {
-        return <div className="grid justify-center items-center w-full h-0.5 bg-zinc-600"></div>;
-    }
-
-    return (
-        <div className="grid grid-flow-col items-center gap-2">
-            {items.map((item, itemIndex) => (
-                <React.Fragment key={itemIndex}>
-                    <Orb>
-                        <p>{item.name}</p>
-                    </Orb>
-                    {itemIndex !== items.length - 1 && <Line />}
-                </React.Fragment>
-            ))}
-        </div>
-    );
-}
-
 function App() {
     const [items, setItems] = useState<Types.Item[]>([]);
     const [selectedItem, setSelectedItem] = useState<Types.Item | null>(null);
@@ -199,7 +212,7 @@ function App() {
         setComposeDescription("");
         setComposeTags([]);
         setComposeStatus(Status.backlog);
-    }
+    };
 
     const formSubmit = (e: any) => {
         e.preventDefault();

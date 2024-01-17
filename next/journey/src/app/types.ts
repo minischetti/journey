@@ -11,12 +11,17 @@ enum Status {
   }
 
   interface Item {
+    id: string
     name: string
     description?: string
     status?: Status
     items?: Item[]
     tags?: string[]
-
   }
 
-  export type { Item, Status, Features }
+  interface Tag {
+    id: string
+    name: string
+  }
+
+  export type { Item, Status, Features, Tag }
