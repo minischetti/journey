@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import * as datefns from "date-fns";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { ItemsContext, ItemsProvider } from "../../context";
 
-const Calendar = () => {
+export const Calendar = () => {
+    const { items, add, remove } = useContext(ItemsContext);
     const [date, setDate] = useState(new Date());
 
     const currentDay = () => datefns.format(date, "d");
@@ -23,7 +25,7 @@ const Calendar = () => {
     const calendarDays = () => [...Array(datefns.getDaysInMonth(date)).keys()];
     const calendarDates = () => calendarDays().map((day) => day + 1);
 
-    const isToday = (day) => {
+    const isToday = (day: number) => {
         const today = new Date();
         return (
             datefns.isSameDay(date, today) &&
@@ -35,34 +37,38 @@ const Calendar = () => {
 
     const daysOfWeek = () => ["S", "M", "T", "W", "T", "F", "S"];
 
+    enum View {
+        day,
+        week,
+        month,
+        year,
+    }
+
     return (
-        <div className=" bg-zinc-800 p-3 rounded-md">
+        <div className="bg-zinc-800 p-3 rounded-md w-full h-full">
             <div className="flex justify-between p-2">
-                <button onClick={previousMonth}><CaretLeft/></button>
                 <span className="text-2xl font-bold text-center">{currentMonth()}</span>
+                <div className="flex gap-2">
+                <button onClick={previousMonth}><CaretLeft/></button>
+                <button onClick={goToToday}>Today</button>
                 <button onClick={nextMonth}><CaretRight/></button>
+                </div>
             </div>
-            <div className="grid grid-cols-7 font-bold">
+            <div className="grid grid-cols-7 font-bold gap-4 py-2">
                 {daysOfWeek().map((dayOfWeek) => (
-                    <div className="flex content-center justify-center p-2" key={dayOfWeek}>
+                    <div className="grid justify-center" key={dayOfWeek}>
                         {dayOfWeek}
                     </div>
                 ))}
             </div>
-            <div className="grid grid-cols-7">
+            <div className="grid grid-cols-7 gap-4">
                 {calendarDates().map((calendarDate) => (
-                    <div
-                        className={`flex content-center justify-center p-2 ${
-                            isToday(calendarDate) ? "bg-zinc-600 font-bold rounded-md" : ""
-                        }`}
-                        key={calendarDate}
-                    >
-                        {calendarDate}
-                    </div>
+                        <div key={calendarDate} className="grid justify-center aspect-square border-zinc-700 border p-4">
+                            {!isToday(calendarDate) && <span className="">{calendarDate}</span>}
+                            {isToday(calendarDate) && <span className="">{calendarDate}</span>}
+                            </div>
                 ))}
             </div>
         </div>
     );
 };
-
-export default Calendar;

@@ -8,6 +8,7 @@ import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-u
 import { Bar } from "./components/ui/Bar";
 import { Timeline } from "./components/ui/Timeline";
 import { Side } from "./components/ui/Side";
+import { Calendar } from "./components/features/Calendar";
 import { List } from "./components/ui/List";
 import { ComposeForm } from "./components/features/ComposeForm";
 import { Item } from "./components/ui/Item";
@@ -60,21 +61,21 @@ function App() {
 
     return (
         <ItemsContext.Provider value={{ items, add, remove }}>
-            <>
+            <div className="flex flex-col w-dvw h-dvh">
                 {/* Header */}
-                <Bar>
+                {/* <Bar>
                     <h1 className="text-4xl w-full text-center">Journey</h1>
                     <button type="button" variant={Variants.circle}>
                         <Plus weight="bold" />
                     </button>
-                </Bar>
+                </Bar> */}
 
                 {/* Body */}
-                <div className="flex flex-row gap-2">
+                <div className="flex gap-4 w-full max-h-full">
                     {/* Left */}
-                    <Side />
+                    <Calendar />
                     {/* Center */}
-                    <List>
+                    {/* <List>
                         {items.map((item, itemIndex) => (
                             <Item key={itemIndex} {...item}>
                                 {item.tags.map((tag, tagIndex) => (
@@ -82,11 +83,11 @@ function App() {
                                 ))}
                             </Item>
                         ))}
-                    </List>
+                    </List> */}
                     {/* Right */}
                     <ComposeForm />
                 </div>
-            </>
+            </div>
         </ItemsContext.Provider>
     );
 }

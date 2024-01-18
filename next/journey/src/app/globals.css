@@ -24,4 +24,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
 }
