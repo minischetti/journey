@@ -14,7 +14,7 @@ export function Item({
 }) {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="grid border border-gray-400 rounded-md p-4 gap-2">
+        <div className="grid border border-zinc-400 rounded-md p-4 gap-2">
             <h2>{name}</h2>
             <div>{description}</div>
             <div className="flex flex-row gap-2">{children}</div>

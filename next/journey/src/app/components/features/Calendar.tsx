@@ -49,9 +49,9 @@ export const Calendar = () => {
             <div className="flex justify-between p-2">
                 <span className="text-2xl font-bold text-center">{currentMonth()}</span>
                 <div className="flex gap-2">
-                <button onClick={previousMonth}><CaretLeft/></button>
-                <button onClick={goToToday}>Today</button>
-                <button onClick={nextMonth}><CaretRight/></button>
+                    <button onClick={previousMonth}><CaretLeft/></button>
+                    <button onClick={goToToday}>Today</button>
+                    <button onClick={nextMonth}><CaretRight/></button>
                 </div>
             </div>
             <div className="grid grid-cols-7 font-bold gap-4 py-2">
@@ -63,10 +63,9 @@ export const Calendar = () => {
             </div>
             <div className="grid grid-cols-7 gap-4">
                 {calendarDates().map((calendarDate) => (
-                        <div key={calendarDate} className="grid justify-center aspect-square border-zinc-700 border p-4">
-                            {!isToday(calendarDate) && <span className="">{calendarDate}</span>}
-                            {isToday(calendarDate) && <span className="">{calendarDate}</span>}
-                            </div>
+                        <div key={calendarDate} className={`grid justify-center aspect-square rounded-lg border-zinc-700 border p-4${isToday(calendarDate) ? ' shadow-md shadow-zinc-900 bg-zinc-700' : ''}`}>
+                            <span className={isToday(calendarDate) ? 'text-zinc-100 font-bold' : 'text-zinc-400'}>{calendarDate}</span>
+                        </div>
                 ))}
             </div>
         </div>
