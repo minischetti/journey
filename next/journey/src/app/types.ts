@@ -19,6 +19,7 @@ enum Status {
     status?: Status
     items?: Item[]
     tags?: string[]
+    date?: Date | null
   }
 
   interface Tag {

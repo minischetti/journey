@@ -27,12 +27,7 @@ export const Calendar = () => {
 
     const isToday = (day: number) => {
         const today = new Date();
-        return (
-            datefns.isSameDay(date, today) &&
-            datefns.isSameMonth(date, today) &&
-            datefns.isSameYear(date, today) &&
-            day === datefns.getDate(today)
-        );
+        return datefns.isSameDay(date, today) && datefns.isSameMonth(date, today) && datefns.isSameYear(date, today) && day === datefns.getDate(today);
     };
 
     const daysOfWeek = () => ["S", "M", "T", "W", "T", "F", "S"];
@@ -49,9 +44,13 @@ export const Calendar = () => {
             <div className="flex justify-between p-2">
                 <span className="text-2xl font-bold text-center">{currentMonth()}</span>
                 <div className="flex gap-2">
-                    <button onClick={previousMonth}><CaretLeft/></button>
+                    <button onClick={previousMonth}>
+                        <CaretLeft />
+                    </button>
                     <button onClick={goToToday}>Today</button>
-                    <button onClick={nextMonth}><CaretRight/></button>
+                    <button onClick={nextMonth}>
+                        <CaretRight />
+                    </button>
                 </div>
             </div>
             <div className="grid grid-cols-7 font-bold gap-4 py-2">
@@ -63,9 +62,16 @@ export const Calendar = () => {
             </div>
             <div className="grid grid-cols-7 gap-4">
                 {calendarDates().map((calendarDate) => (
-                        <div key={calendarDate} className={`grid justify-center aspect-square rounded-lg border-zinc-700 border p-4${isToday(calendarDate) ? ' shadow-md shadow-zinc-900 bg-zinc-700' : ''}`}>
-                            <span className={isToday(calendarDate) ? 'text-zinc-100 font-bold' : 'text-zinc-400'}>{calendarDate}</span>
+                    <div
+                        key={calendarDate}
+                        className={`flex flex-col gap-2 aspect-square rounded-lg overflow-hidden border-zinc-700 border p-4${
+                            isToday(calendarDate) ? " shadow-md shadow-zinc-900 bg-zinc-700" : ""
+                        }`}>
+                        <span className={isToday(calendarDate) ? "text-zinc-100 font-bold" : "text-zinc-400"}>{calendarDate}</span>
+                        <div className="flex flex-col gap-2 overflow-scroll">
+                            {items.map((item) => calendarDate === datefns.getDate(item.date) && <span className="px-2 py-1 bg-zinc-600 rounded-md text-zinc-100">{item.name}</span>)}
                         </div>
+                    </div>
                 ))}
             </div>
         </div>

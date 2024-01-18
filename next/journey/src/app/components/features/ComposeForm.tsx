@@ -1,16 +1,8 @@
 import React, { useContext, useState } from "react";
 import * as Types from "../../types";
-import { Command } from "cmdk";
 import { ItemsContext } from "../../context";
-import { Tag as TagIcon, Plus, X, Subtract, Eye, EyeClosed } from "@phosphor-icons/react";
-import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-ui/react";
-import { Bar } from "../ui/Bar";
-import { Timeline } from "../ui/Timeline";
-import { Side } from "../ui/Side";
-import { List } from "../ui/List";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
-import { Label } from "../ui/Label";
 import { Tag } from "../ui/Tag";
 import { Tags } from "../ui/Tags";
 import { Status } from "../../types";
@@ -20,6 +12,7 @@ export function ComposeForm() {
     const [composeDescription, setComposeDescription] = useState("");
     const [composeTags, setComposeTags] = useState<string[]>([]);
     const [composeStatus, setComposeStatus] = useState(Status.backlog);
+    const [composeDate, setComposeDate] = useState<Date | null>(null);
     const { items, add, remove } = useContext(ItemsContext);
 
     const resetForm = () => {
@@ -27,6 +20,7 @@ export function ComposeForm() {
         setComposeDescription("");
         setComposeTags([]);
         setComposeStatus(Status.backlog);
+        setComposeDate(null);
     };
 
     const formSubmit = (e: any) => {
@@ -43,8 +37,9 @@ export function ComposeForm() {
             tags: composeTags || [],
             description: e.target.description?.value || "",
             status: e.target.status?.value || Status.backlog,
+            date: composeDate || new Date(),
         };
-        add(newItem);
+        add(newItem)
         resetForm();
     };
 
@@ -90,6 +85,7 @@ export function ComposeForm() {
                     </option>
                 ))}
             </Select>
+            <Input type="date" label="Date" name="date" placeholder="Enter a date..." onChange={(e) => setComposeDate(new Date(e.target.value))} />
             <div>
                 <Input label="Tags" name="tags" placeholder="Enter tags..." onChange={updateTags} />
                 {composeTags && (
