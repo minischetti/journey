@@ -66,9 +66,8 @@ export const Calendar = () => {
                 {dates.map((date) => (
                     <div
                         key={date}
-                        className={`flex flex-col gap-2 aspect-square rounded-lg overflow-hidden border-zinc-700 border p-4 transition-all duration-150 ease-in-out
-                            ${isToday(date) ? " border-2 border-zinc-500" : ""}
-                            ${selectedDate && datefns.isSameDay(selectedDate, datefns.setDate(currentDate, date)) ? " shadow-inner shadow-zinc-900 bg-zinc-900 border border-zinc-700 text-zinc-100" : ""}
+                        className={`flex flex-col gap-1 aspect-square rounded-lg overflow-hidden border-zinc-700 border p-2 transition-all duration-150 ease-in-out
+                            ${selectedDate && datefns.isSameDay(selectedDate, datefns.setDate(currentDate, date)) ? " shadow-zinc-900 bg-zinc-700 border border-zinc-700 text-zinc-100" : ""}
                         `}
                         onClick={() => {
                             setSelectedDate(datefns.setDate(currentDate, date));
@@ -77,9 +76,9 @@ export const Calendar = () => {
                         <div className="text-sm">{date}</div>
                         <div className="flex flex-col gap-2 overflow-auto text-sm">
                             {items.map((item) => date === datefns.getDate(item.date) &&
-                                <div className="grid grid-flow-col justify-between items-center px-2 py-1 bg-zinc-700 rounded-md text-zinc-100">
+                                <div className="grid grid-flow-col justify-between items-center px-2 py-1 bg-zinc-600 rounded-md text-zinc-100">
                                     <div className="text-nowrap text-ellipsis overflow-hidden">{item.name}</div>
-                                    {item.date && <div className="text-nowrap text-ellipsis overflow-hidden text-xs"> {datefns.format(item.date, "h:mm a")}</div>}
+                                    {item.date && <div className="text-nowrap text-ellipsis overflow-hidden text-xs text-zinc-400"> {datefns.format(item.date, "h:mm a")}</div>}
                                 </div>
                             )}
                         </div>
