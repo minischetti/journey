@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Types from "./types";
 import { Command } from "cmdk";
-import { ItemsContext, ItemsProvider } from "./context";
+import { ItemsContext, ItemsProvider } from "./context/ItemsContext";
 import { Tag as TagIcon, Plus, X, Subtract } from "@phosphor-icons/react";
 import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-ui/react";
 import { Bar } from "./components/ui/Bar";

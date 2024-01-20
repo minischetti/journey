@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import * as Types from './types';
+import * as Types from '../types';
 
 const ItemsContext = createContext<{
     items: Types.Item[];
@@ -30,4 +30,10 @@ const ItemsProvider = ({ children }: { children: JSX.Element }) => {
     return <Provider value={value}>{children}</Provider>;
 };
 
-export { ItemsContext, ItemsProvider };
+const useItems = () => {
+    const { items, add, remove } = React.useContext(ItemsContext);
+    return { items, add, remove };
+}
+
+
+export { ItemsContext, ItemsProvider, useItems };
