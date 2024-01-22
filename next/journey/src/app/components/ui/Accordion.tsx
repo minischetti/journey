@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
-import { Variants } from "../../page";
 
-const Accordion = ({ title, children, variant }: { title: string; children: JSX.Element | JSX.Element[]; variant?: Variants; }) => {
+const Accordion = ({ title, children, }: { title: string; children: JSX.Element | JSX.Element[]; }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleAccordion = () => {
@@ -11,7 +10,7 @@ const Accordion = ({ title, children, variant }: { title: string; children: JSX.
     };
 
     return (
-        <div className={`cursor-pointer select-none border border-zinc-600 bg-zinc-700 rounded-md ${variant}`}>
+        <div className='cursor-pointer select-none border border-zinc-600 bg-zinc-700 rounded-md'>
             <div onClick={toggleAccordion} className="flex justify-between p-2 cursor-pointer">
                 <h2>{title}</h2>
                 <button>{isOpen ? <EyeClosed /> : <Eye />}</button>

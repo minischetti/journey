@@ -97,7 +97,7 @@ export function ComposeForm() {
                 ))}
             </Select>
             <Input type="date" label="Date" name="date" placeholder="Enter a date..." onChange={(e) => setComposeDate(new Date(e.target.value))} />
-            <Input label="Time" name="time" type="time" onChange={(e) => setComposeTime(new Date(e.target.value))} />
+            <Input label="Time" name="time" type="time" placeholder="Enter a time..." onChange={(e) => setComposeTime(new Date(e.target.value))} />
             <div>
                 <Input label="Tags" name="tags" placeholder="Enter tags..." onChange={updateTags} />
                 {composeTags && (

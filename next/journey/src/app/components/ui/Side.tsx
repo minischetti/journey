@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Calendar from "../features/Calendar";
+import Calendar from "../features/CalendarMonth";
 
 export function Side() {
     return (

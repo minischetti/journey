@@ -8,38 +8,22 @@ import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-u
 import { Bar } from "./components/ui/Bar";
 import { Timeline } from "./components/ui/Timeline";
 import { Side } from "./components/ui/Side";
-import { Calendar } from "./components/features/Calendar";
+import { CalendarMonth } from "./components/features/CalendarMonth";
 import { List } from "./components/ui/List";
 import { ComposeForm } from "./components/features/ComposeForm";
 import { Item } from "./components/ui/Item";
+import { CalendarWeek } from "./components/features/CalendarWeek";
 
-export enum Variants {
-    default = "rounded-md bg-transparent",
-    circle = "rounded-full border-2 border-zinc-600",
-    outline = "border border-zinc-600 rounded-md",
-    underline = "border-b border-zinc-600",
-}
-
-function Button({
-    type,
-    children,
-    onClick,
-    variant = Variants.default,
-}: {
-    type: "button" | "submit";
-    children: JSX.Element;
-    onClick?: () => void;
-    variant?: Variants;
-}) {
-    return (
-        <button type={type} onClick={onClick} className={`flex gap-1 items-center p-2 text-zinc-100 ${variant}`}>
-            {children}
-        </button>
-    );
+enum CalendarView {
+    day,
+    week,
+    month,
+    year,
 }
 
 function App() {
     const [items, setItems] = useState<Types.Item[]>([]);
+    const [calendarView, setCalendarView] = useState<CalendarView>(CalendarView.week);
 
     const [selectedItem, setSelectedItem] = useState<Types.Item | null>(null);
 
@@ -59,6 +43,19 @@ function App() {
         console.log("items", items);
     }, [items]);
 
+    const calendarTemplate = () => {
+        switch (calendarView) {
+            case CalendarView.day:
+                return <div>Day</div>;
+            case CalendarView.week:
+                return <CalendarWeek />;
+            case CalendarView.month:
+                return <CalendarMonth />;
+            case CalendarView.year:
+                return <div>Year</div>;
+        }
+    }
+
     return (
         <ItemsContext.Provider value={{ items, add, remove }}>
             <div className="flex flex-col w-dvw h-dvh">
@@ -69,11 +66,11 @@ function App() {
                         <Plus weight="bold" />
                     </button>
                 </Bar> */}
-
+                {calendarTemplate()}
                 {/* Body */}
                 <div className="flex gap-4 w-full max-h-full">
                     {/* Left */}
-                    <Calendar />
+
                     {/* Center */}
                     {/* <List>
                         {items.map((item, itemIndex) => (

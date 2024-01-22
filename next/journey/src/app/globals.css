@@ -3,6 +3,203 @@
 @tailwind utilities;
 
 :root {
+  /* Color */
+  --color-dark-0: 0, 0%, calc(var(--ratio-major-third) * 100%);
+  --color-dark-1: 0, 0%, calc(var(--ratio-major-third) * 80%);
+  --color-dark-2: 0, 0%, calc(var(--ratio-major-third) * 60%);
+  --color-dark-3: 0, 0%, calc(var(--ratio-major-third) * 40%);
+  --color-dark-4: 0, 0%, calc(var(--ratio-major-third) * 20%);
+  --color-dark-5: 0, 0%, calc(var(--ratio-major-third) * 10%);
+  --color-dark-6: 0, 0%, calc(var(--ratio-major-third) * 5%);
+
+  --color-light-0: 0, 0%, calc(var(--ratio-major-third) * 100%);
+  --color-light-1: 0, 0%, calc(var(--ratio-major-third) * 80%);
+  --color-light-2: 0, 0%, calc(var(--ratio-major-third) * 60%);
+  --color-light-3: 0, 0%, calc(var(--ratio-major-third) * 40%);
+  --color-light-4: 0, 0%, calc(var(--ratio-major-third) * 20%);
+  --color-light-5: 0, 0%, calc(var(--ratio-major-third) * 10%);
+  --color-light-6: 0, 0%, calc(var(--ratio-major-third) * 5%);
+
+  /* Radius */
+  --radius-none: 0px;
+  --radius-sm: calc(var(--radius-0) * var(--ratio-major-third));
+  --radius-md: calc(var(--radius-1) * var(--ratio-major-third));
+  --radius-lg: calc(var(--radius-2) * var(--ratio-major-third));
+
+
+
+  /* Ratios */
+  --ratio-major-third: 1.25;
+  --ratio-minor-third: 1.2;
+  --ratio-perfect-fourth: 1.333;
+  --ratio-perfect-fifth: 1.5;
+  --ratio-golden: 1.618;
+
+  /* Scales */
+  --scale-major-third: var(--ratio-major-third);
+  --scale-major-third-1: calc(var(--scale-major-third) * var(--ratio-major-third));
+  --scale-major-third-2: calc(var(--scale-major-third-1) * var(--ratio-major-third));
+  --scale-major-third-3: calc(var(--scale-major-third-2) * var(--ratio-major-third));
+  --scale-major-third-4: calc(var(--scale-major-third-3) * var(--ratio-major-third));
+  --scale-major-third-5: calc(var(--scale-major-third-4) * var(--ratio-major-third));
+  --scale-major-third-6: calc(var(--scale-major-third-5) * var(--ratio-major-third));
+
+  /* Fonts */
+  --font-size-sm: var(--ratio-major-third);
+  --font-size-md: calc(var(--font-size-sm) * var(--ratio-major-third));
+  --font-size-lg: calc(var(--font-size-md) * var(--ratio-major-third));
+  --font-size-xl: calc(var(--font-size-lg) * var(--ratio-major-third));
+
+  /* Shadows */
+  --shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
+  --shadow-0: 0 0 0 0 rgba(0, 0, 0 0.2);
+
+  /* Spacing */
+  --spacing-sm: calc(var(--ratio-major-third) * var(--ratio-major-third));
+  --spacing-md: calc(var(--spacing-sm) * var(--ratio-major-third));
+  --spacing-lg: calc(var(--spacing-md) * var(--ratio-major-third));
+
+  /* Sizes */
+  --size-base: 1px;
+  --size-1: calc(var(--size-base) * var(--ratio-major-third));
+  --size-2: calc(var(--size-1) * var(--ratio-major-third));
+  --size-3: calc(var(--size-2) * var(--ratio-major-third));
+  --size-4: calc(var(--size-3) * var(--ratio-major-third));
+}
+
+/* Height */
+.height-sm {
+  height: var(--size-1);
+}
+.height-md {
+  height: var(--size-2);
+}
+.height-lg {
+  height: var(--size-3);
+}
+
+/* Width */
+.width-sm {
+  width: var(--size-1);
+}
+.width-md {
+  width: var(--size-2);
+}
+.width-lg {
+  width: var(--size-3);
+}
+
+/* Margin */
+.margin-sm {
+  margin: var(--spacing-1);
+}
+.margin-md {
+  margin: var(--spacing-2);
+}
+.margin-lg {
+  margin: var(--spacing-3);
+}
+
+/* Padding */
+.padding-sm {
+  padding: var(--spacing-1);
+}
+.padding-md {
+  padding: var(--spacing-2);
+}
+.padding-lg {
+  padding: var(--spacing-3);
+}
+
+
+/* Font */
+.font-sm {
+  font-size: var(--font-size-0);
+}
+.font-md {
+  font-size: var(--font-size-1);
+}
+.font-lg {
+  font-size: var(--font-size-2);
+}
+.font-xl {
+  font-size: var(--font-size-3);
+}
+
+/* Radius */
+.radius-none {
+  border-radius: var(--radius-none);
+}
+.radius-sm {
+  border-radius: var(--radius-sm);
+}
+.radius-md {
+  border-radius: var(--radius-mg);
+}
+.radius-lg {
+  border-radius: var(--radius-lg);
+}
+
+/* Border */
+.border {
+  border: var(--size-1) solid black;
+}
+
+
+
+/* Utilities */
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+
+.row {
+  flex-direction: row;
+  grid-auto-flow: row;
+}
+
+.col {
+  flex-direction: column;
+  grid-auto-flow: column;
+}
+
+.box {
+  border: 1px solid black;
+}
+
+.appearance-none {
+  appearance: none;
+}
+
+.reset {
+  all: unset;
+  @apply appearance-none;
+}
+
+.radius-1 {
+  border-radius: var(--radius-1);
+}
+
+/* Elements */
+
+/* Elements/Features */
+.calendar {
+  @apply box;
+}
+
+/* Elements/UI */
+input {
+  @apply reset;
+  @apply border;
+
+}
+
+
+
+.shadow {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-color-scheme: dark) {

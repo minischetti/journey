@@ -1,10 +1,9 @@
 "use client";
 import React from "react";
-import { Variants } from "../../page";
 import { Label } from "./Label";
 
 export function Select({
-    label, name, children, variant = Variants.default, value, onChange,
+    label, name, children, value, onChange,
 }: {
     label: string;
     name: string;
@@ -18,7 +17,7 @@ export function Select({
             <Label>{label}</Label>
             <select
                 name={name}
-                className={`border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2 ${variant}`}
+                className='border border-zinc-700 focus:outline-zinc-800 outline-none rounded-md p-2'
                 value={value}
                 onChange={onChange}>
                 {children}
