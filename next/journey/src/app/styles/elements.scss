@@ -1,0 +1,16 @@
+@import "utilities.scss";
+
+@layer elements {
+    header {
+        @apply radius-sm;
+        @apply padding-sm;
+    }
+
+    input,
+    select {
+        @apply reset;
+        @apply border;
+        @apply radius-sm;
+        @apply padding-sm;
+    }
+}

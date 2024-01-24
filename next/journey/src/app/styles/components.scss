@@ -1,0 +1,16 @@
+@import "variables.scss";
+@import "utilities.scss";
+
+@layer components {
+    .calendar {
+        @apply box;
+        @apply border;
+        @apply radius-sm;
+        @apply padding-sm;
+    }
+
+    .tag {
+        @apply box;
+        @apply border;
+    }
+}

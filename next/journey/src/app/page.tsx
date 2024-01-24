@@ -1,17 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Types from "./types";
-import { Command } from "cmdk";
 import { ItemsContext, ItemsProvider } from "./context/ItemsContext";
-import { Tag as TagIcon, Plus, X, Subtract } from "@phosphor-icons/react";
-import { autoPlacement, flip, shift, useFloating, autoUpdate } from "@floating-ui/react";
-import { Bar } from "./components/ui/Bar";
-import { Timeline } from "./components/ui/Timeline";
-import { Side } from "./components/ui/Side";
 import { CalendarMonth } from "./components/features/CalendarMonth";
-import { List } from "./components/ui/List";
 import { ComposeForm } from "./components/features/ComposeForm";
-import { Item } from "./components/ui/Item";
 import { CalendarWeek } from "./components/features/CalendarWeek";
 
 enum CalendarView {
@@ -58,7 +50,7 @@ function App() {
 
     return (
         <ItemsContext.Provider value={{ items, add, remove }}>
-            <div className="flex flex-col w-dvw h-dvh">
+            <div>
                 {/* Header */}
                 <header>
                     <h1>Journey</h1>

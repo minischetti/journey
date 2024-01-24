@@ -1,0 +1,170 @@
+
+@import 'variables.scss';
+
+    .flex {
+        display: flex;
+    }
+
+    .grid {
+        display: grid;
+    }
+
+    .row {
+        flex-direction: row;
+        grid-auto-flow: row;
+    }
+
+    .col {
+        flex-direction: column;
+        grid-auto-flow: column;
+    }
+
+    .center-x {
+        justify-content: center;
+    }
+
+    .center-y {
+        align-items: center;
+    }
+
+    .center-xy {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .space-between {
+        justify-content: space-between;
+    }
+
+    .box {
+        @apply flex;
+        @apply row;
+        @apply center-xy;
+    }
+
+    .appearance-none {
+        appearance: none;
+    }
+
+    .reset {
+        all: unset;
+        @apply appearance-none;
+    }
+
+    .shadow-none {
+        box-shadow: none;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0 0 $size-sm $color-foreground;
+    }
+
+    /* Height */
+    .height-xs {
+        height: $size-xs;
+    }
+    .height-sm {
+        height: $size-sm;
+    }
+    .height-md {
+        height: $size-md;
+    }
+    .height-lg {
+        height: $size-lg;
+    }
+    .height-xl {
+        height: $size-xl;
+    }
+
+
+    /* Width */
+    .width-xs {
+        width: $size-xs;
+    }
+    .width-sm {
+        width: $size-sm;
+    }
+    .width-md {
+        width: $size-md;
+    }
+    .width-lg {
+        width: $size-lg;
+    }
+    .width-xl {
+        width: $size-xl;
+    }
+
+    /* Margin */
+    .margin-xs {
+        margin: $size-xs;
+    }
+    .margin-sm {
+        margin: $size-sm;
+    }
+    .margin-md {
+        margin: $size-md;
+    }
+    .margin-lg {
+        margin: $size-lg;
+    }
+    .margin-xl {
+        margin: $size-xl;
+    }
+
+    /* Padding */
+    .padding-xs {
+        padding: $size-xs;
+    }
+    .padding-sm {
+        padding: $size-sm;
+    }
+    .padding-md {
+        padding: $size-md;
+    }
+    .padding-lg {
+        padding: $size-lg;
+    }
+    .padding-xl {
+        padding: $size-xl;
+    }
+
+    /* Font */
+    .font-sm {
+        font-size: $size-sm;
+    }
+    .font-md {
+        font-size: $size-md;
+    }
+    .font-lg {
+        font-size: $size-lg;
+    }
+    .font-xl {
+        font-size: $size-xl;
+    }
+
+    /* Radius */
+    .radius-none {
+        border-radius: 0;
+    }
+    .radius-xs {
+        border-radius: $size-xs;
+    }
+    .radius-sm {
+        border-radius: $size-sm;
+    }
+    .radius-md {
+        border-radius: $size-md;
+    }
+    .radius-lg {
+        border-radius: $size-lg;
+    }
+    .radius-xl {
+        border-radius: $size-xl;
+    }
+
+    /* Border */
+    .border {
+        border-width: $size-sm;
+        border-style: solid;
+        border-color: $color-foreground;
+    }

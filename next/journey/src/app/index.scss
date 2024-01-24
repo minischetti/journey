@@ -1,0 +1,13 @@
+@import 'styles/variables.scss';
+@import 'styles/utilities.scss';
+@import 'styles/elements.scss';
+@import 'styles/components.scss';
+
+
+body {
+  color: $color-foreground;
+  background: $color-background;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+}
