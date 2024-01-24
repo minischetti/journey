@@ -60,15 +60,17 @@ function App() {
         <ItemsContext.Provider value={{ items, add, remove }}>
             <div className="flex flex-col w-dvw h-dvh">
                 {/* Header */}
+                <header>
+                    <h1>Journey</h1>
+                </header>
                 {/* <Bar>
                     <h1 className="text-4xl w-full text-center">Journey</h1>
                     <button type="button" variant={Variants.circle}>
                         <Plus weight="bold" />
                     </button>
                 </Bar> */}
-                {calendarTemplate()}
                 {/* Body */}
-                <div className="flex gap-4 w-full max-h-full">
+                <section>
                     {/* Left */}
 
                     {/* Center */}
@@ -83,7 +85,8 @@ function App() {
                     </List> */}
                     {/* Right */}
                     <ComposeForm />
-                </div>
+                    {calendarTemplate()}
+                </section>
             </div>
         </ItemsContext.Provider>
     );
