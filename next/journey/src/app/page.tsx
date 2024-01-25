@@ -7,10 +7,10 @@ import { ComposeForm } from "./components/features/ComposeForm";
 import { CalendarWeek } from "./components/features/CalendarWeek";
 
 enum CalendarView {
-    day,
-    week,
-    month,
-    year,
+    day = "day",
+    week = "week",
+    month = "month",
+    year = "year",
 }
 
 function App() {
@@ -55,28 +55,14 @@ function App() {
                 <header>
                     <h1>Journey</h1>
                 </header>
-                {/* <Bar>
-                    <h1 className="text-4xl w-full text-center">Journey</h1>
-                    <button type="button" variant={Variants.circle}>
-                        <Plus weight="bold" />
-                    </button>
-                </Bar> */}
-                {/* Body */}
                 <section>
-                    {/* Left */}
-
-                    {/* Center */}
-                    {/* <List>
-                        {items.map((item, itemIndex) => (
-                            <Item key={itemIndex} {...item}>
-                                {item.tags.map((tag, tagIndex) => (
-                                    <Tag key={tagIndex} name={tag} />
-                                ))}
-                            </Item>
-                        ))}
-                    </List> */}
-                    {/* Right */}
                     <ComposeForm />
+                    <select onChange={(e) => setCalendarView(e.target.value as CalendarView)}>
+                        <option value={CalendarView.day}>Day</option>
+                        <option value={CalendarView.week}>Week</option>
+                        <option value={CalendarView.month}>Month</option>
+                        <option value={CalendarView.year}>Year</option>
+                    </select>
                     {calendarTemplate()}
                 </section>
             </div>

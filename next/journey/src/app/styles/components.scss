@@ -3,10 +3,7 @@
 
 @layer components {
     .calendar {
-        @apply box;
-        @apply border;
-        @apply radius-sm;
-        @apply padding-sm;
+        @include box;
     }
 
     .tag {

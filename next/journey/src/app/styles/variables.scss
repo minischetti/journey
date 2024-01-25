@@ -21,7 +21,16 @@ $size-sm: calc($size-xs * $ratio-major-third);
 $size-md: calc($size-sm * $ratio-major-third);
 $size-lg: calc($size-md * $ratio-major-third);
 $size-xl: calc($size-lg * $ratio-major-third);
+$variants: xs, sm, md, lg, xl;
+@mixin variant($property, $value) {
+    @each $variant in $variants {
+        .#{$property}-#{$variant} {
+            #{$property}: $content;
+        }
+    }
+}
 
+/* Colors */
 $color-dark-0: 0, 0%, calc($ratio-major-third * 100%);
 $color-dark-1: 0, 0%, calc($ratio-major-third * 80%);
 $color-dark-2: 0, 0%, calc($ratio-major-third * 60%);

@@ -48,7 +48,7 @@ export const CalendarMonth = () => {
     return (
         <CalendarProvider>
             <ItemsProvider>
-                <div className="bg-zinc-800 p-3 rounded-md w-full h-full">
+                <div className="calendar">
                     <div className="flex justify-between p-2">
                         <div className="flex gap-1 text-2xl tracking-wider">
                             <span className="font-bold">{currentMonth()}</span>

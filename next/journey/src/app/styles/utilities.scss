@@ -1,6 +1,16 @@
 
 @import 'variables.scss';
 
+    @mixin apply($content) {
+        @content;
+    }
+
+    // Apply variant to a selector
+    @mixin variant($selector, $variants, $content) {
+        #{$selector} {
+            @include apply-variants($variants, $content);
+        }
+    }
     .flex {
         display: flex;
     }
@@ -36,9 +46,9 @@
         justify-content: space-between;
     }
 
-    .box {
+    @mixin box {
         @apply flex;
-        @apply row;
+        @apply col;
         @apply center-xy;
     }
 
