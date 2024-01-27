@@ -13,12 +13,14 @@ import { List } from "./components/ui/List";
 import { ComposeForm } from "./components/features/ComposeForm";
 import { Item } from "./components/ui/Item";
 import { CalendarWeek } from "./components/features/CalendarWeek";
+import { CalendarProvider } from "./context/CalendarContext";
+import { Calendar } from "./components/features/Calendar";
 
 enum CalendarView {
-    day,
-    week,
-    month,
-    year,
+    day = "day",
+    week = "week",
+    month = "month",
+    year = "year",
 }
 
 function App() {
@@ -57,6 +59,7 @@ function App() {
     }
 
     return (
+        <CalendarProvider>
         <ItemsContext.Provider value={{ items, add, remove }}>
             <div className="flex flex-col w-dvw h-dvh">
                 {/* Header */}
@@ -85,10 +88,19 @@ function App() {
                     </List> */}
                     {/* Right */}
                     <ComposeForm />
-                    {calendarTemplate()}
+                    <select defaultValue={CalendarView.week} onChange={(e) => setCalendarView(e.target.value as CalendarView)}>
+                        <option value={CalendarView.day}>Day</option>
+                        <option value={CalendarView.week}>Week</option>
+                        <option value={CalendarView.month}>Month</option>
+                        <option value={CalendarView.year}>Year</option>
+                    </select>
+                    <Calendar>
+                        {calendarTemplate()}
+                    </Calendar>
                 </section>
             </div>
         </ItemsContext.Provider>
+        </CalendarProvider>
     );
 }
 
