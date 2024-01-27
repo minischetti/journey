@@ -1,180 +1,181 @@
+@import "variables.scss";
 
-@import 'variables.scss';
+@mixin flex {
+    display: flex;
+}
 
-    @mixin apply($content) {
-        @content;
-    }
+@mixin grid {
+    display: grid;
+}
 
-    // Apply variant to a selector
-    @mixin variant($selector, $variants, $content) {
-        #{$selector} {
-            @include apply-variants($variants, $content);
-        }
-    }
-    .flex {
-        display: flex;
-    }
+@mixin row {
+    flex-direction: row;
+    grid-auto-flow: row;
+}
 
-    .grid {
-        display: grid;
-    }
+@mixin col {
+    flex-direction: column;
+    grid-auto-flow: column;
+}
 
-    .row {
-        flex-direction: row;
-        grid-auto-flow: row;
-    }
+@mixin center-x {
+    justify-content: center;
+}
 
-    .col {
-        flex-direction: column;
-        grid-auto-flow: column;
-    }
+@mixin center-y {
+    align-items: center;
+}
 
-    .center-x {
-        justify-content: center;
-    }
+@mixin center-xy {
+    justify-content: center;
+    align-items: center;
+}
 
-    .center-y {
-        align-items: center;
-    }
+@mixin space-between {
+    justify-content: space-between;
+}
 
-    .center-xy {
-        justify-content: center;
-        align-items: center;
-    }
+@mixin box {
+    @include flex;
+    @include col;
+    @include center-xy;
+}
 
-    .space-between {
-        justify-content: space-between;
-    }
+@mixin appearance-none {
+    appearance: none;
+}
 
-    @mixin box {
-        @apply flex;
-        @apply col;
-        @apply center-xy;
-    }
+@mixin reset {
+    all: unset;
+    @include appearance-none;
+}
 
-    .appearance-none {
-        appearance: none;
-    }
+@mixin shadow-none {
+    box-shadow: none;
+}
 
-    .reset {
-        all: unset;
-        @apply appearance-none;
-    }
+@mixin shadow-sm {
+    box-shadow: 0 0 0 $size-sm $color-foreground;
+}
 
-    .shadow-none {
-        box-shadow: none;
-    }
+@mixin shadow-md {
+    box-shadow: 0 0 0 $size-md $color-foreground;
+}
 
-    .shadow-sm {
-        box-shadow: 0 0 0 $size-sm $color-foreground;
-    }
+@mixin shadow-lg {
+    box-shadow: 0 0 0 $size-lg $color-foreground;
+}
 
-    /* Height */
-    .height-xs {
-        height: $size-xs;
-    }
-    .height-sm {
-        height: $size-sm;
-    }
-    .height-md {
-        height: $size-md;
-    }
-    .height-lg {
-        height: $size-lg;
-    }
-    .height-xl {
-        height: $size-xl;
-    }
+@mixin shadow-xl {
+    box-shadow: 0 0 0 $size-xl $color-foreground;
+}
 
+/* Height */
+@mixin height-xs {
+    height: $size-xs;
+}
+@mixin height-sm {
+    height: $size-sm;
+}
+@mixin height-md {
+    height: $size-md;
+}
+@mixin height-lg {
+    height: $size-lg;
+}
+@mixin height-xl {
+    height: $size-xl;
+}
 
-    /* Width */
-    .width-xs {
-        width: $size-xs;
-    }
-    .width-sm {
-        width: $size-sm;
-    }
-    .width-md {
-        width: $size-md;
-    }
-    .width-lg {
-        width: $size-lg;
-    }
-    .width-xl {
-        width: $size-xl;
-    }
+/* Width */
+@mixin width-xs {
+    width: $size-xs;
+}
+@mixin width-sm {
+    width: $size-sm;
+}
+@mixin width-md {
+    width: $size-md;
+}
+@mixin width-lg {
+    width: $size-lg;
+}
+@mixin width-xl {
+    width: $size-xl;
+}
 
-    /* Margin */
-    .margin-xs {
-        margin: $size-xs;
-    }
-    .margin-sm {
-        margin: $size-sm;
-    }
-    .margin-md {
-        margin: $size-md;
-    }
-    .margin-lg {
-        margin: $size-lg;
-    }
-    .margin-xl {
-        margin: $size-xl;
-    }
+/* Margin */
+@mixin margin-xs {
+    margin: $size-xs;
+}
+@mixin margin-sm {
+    margin: $size-sm;
+}
+@mixin margin-md {
+    margin: $size-md;
+}
+@mixin margin-lg {
+    margin: $size-lg;
+}
+@mixin margin-xl {
+    margin: $size-xl;
+}
 
-    /* Padding */
-    .padding-xs {
-        padding: $size-xs;
-    }
-    .padding-sm {
-        padding: $size-sm;
-    }
-    .padding-md {
-        padding: $size-md;
-    }
-    .padding-lg {
-        padding: $size-lg;
-    }
-    .padding-xl {
-        padding: $size-xl;
-    }
+/* Padding */
+@mixin padding-xs {
+    padding: $size-xs;
+}
+@mixin padding-sm {
+    padding: $size-sm;
+}
+@mixin padding-md {
+    padding: $size-md;
+}
+@mixin padding-lg {
+    padding: $size-lg;
+}
+@mixin padding-xl {
+    padding: $size-xl;
+}
 
-    /* Font */
-    .font-sm {
-        font-size: $size-sm;
-    }
-    .font-md {
-        font-size: $size-md;
-    }
-    .font-lg {
-        font-size: $size-lg;
-    }
-    .font-xl {
-        font-size: $size-xl;
-    }
+/* Font */
+@mixin font-sm {
+    font-size: $size-sm;
+}
+@mixin font-md {
+    font-size: $size-md;
+}
+@mixin font-lg {
+    font-size: $size-lg;
+}
+@mixin font-xl {
+    font-size: $size-xl;
+}
 
-    /* Radius */
-    .radius-none {
-        border-radius: 0;
-    }
-    .radius-xs {
-        border-radius: $size-xs;
-    }
-    .radius-sm {
-        border-radius: $size-sm;
-    }
-    .radius-md {
-        border-radius: $size-md;
-    }
-    .radius-lg {
-        border-radius: $size-lg;
-    }
-    .radius-xl {
-        border-radius: $size-xl;
-    }
+/* Radius */
+@mixin radius-none {
+    border-radius: 0;
+}
+@mixin radius-xs {
+    border-radius: $size-xs;
+}
+@mixin radius-sm {
+    border-radius: $size-sm;
+}
+@mixin radius-md {
+    border-radius: $size-md;
+}
+@mixin radius-lg {
+    border-radius: $size-lg;
+}
+@mixin radius-xl {
+    border-radius: $size-xl;
+}
 
-    /* Border */
-    .border {
-        border-width: $size-sm;
-        border-style: solid;
-        border-color: $color-foreground;
-    }
+/* Border */
+@mixin border($width: 1px, $style: solid, $color: $color-foreground) {
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
+}
+

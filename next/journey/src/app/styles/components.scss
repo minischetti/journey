@@ -7,7 +7,7 @@
     }
 
     .tag {
-        @apply box;
-        @apply border;
+        @include box;
+        @include border-1;
     }
 }

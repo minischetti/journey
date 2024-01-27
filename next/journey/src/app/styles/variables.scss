@@ -15,20 +15,12 @@ $scale-major-third-5: calc($scale-major-third-4 * $ratio-major-third);
 $scale-major-third-6: calc($scale-major-third-5 * $ratio-major-third);
 
 /* Sizes */
-$size-base: 5px;
+$size-base: 10px;
 $size-xs: calc($size-base * $ratio-major-third);
 $size-sm: calc($size-xs * $ratio-major-third);
 $size-md: calc($size-sm * $ratio-major-third);
 $size-lg: calc($size-md * $ratio-major-third);
 $size-xl: calc($size-lg * $ratio-major-third);
-$variants: xs, sm, md, lg, xl;
-@mixin variant($property, $value) {
-    @each $variant in $variants {
-        .#{$property}-#{$variant} {
-            #{$property}: $content;
-        }
-    }
-}
 
 /* Colors */
 $color-dark-0: 0, 0%, calc($ratio-major-third * 100%);

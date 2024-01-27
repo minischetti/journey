@@ -1,16 +1,22 @@
 @import "utilities.scss";
+@import "variables.scss";
 
 @layer elements {
     header {
-        @apply radius-sm;
-        @apply padding-sm;
+        @include radius-xs;
+        @include padding-xs;
     }
 
     input,
     select {
-        @apply reset;
-        @apply border;
-        @apply radius-sm;
-        @apply padding-sm;
+        @include reset;
+        @include border-1;
+        @include radius-xs;
+        @include padding-xs;
+    }
+
+    form {
+        @include box;
+        @include padding-xs;
     }
 }

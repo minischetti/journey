@@ -80,7 +80,7 @@ export function ComposeForm() {
     };
 
     return (
-        <form onSubmit={formSubmit} className="flex flex-col gap-2 border border-zinc-700 rounded-md p-2">
+        <form onSubmit={formSubmit} className="">
             <Input value={composeTitle} onChange={(e) => setComposeTitle(e.target.value)} name="name" label="name" placeholder="Enter a name..." />
             <Input
                 value={composeDescription}
