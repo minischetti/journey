@@ -1,17 +1,8 @@
 import React from "react";
 import { useCalendar } from "../../context/CalendarContext";
-import * as datefns from "date-fns";
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 export const CalendarWeek = () => {
     const calendar = useCalendar();
-
-    enum View {
-        day = "day",
-        week = "week",
-        month = "month",
-        year = "year",
-    }
 
     return (
         <div style={{ display: "grid", gridAutoFlow: "row" }}>

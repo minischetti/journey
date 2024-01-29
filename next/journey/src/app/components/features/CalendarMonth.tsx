@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import * as datefns from "date-fns";
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
-import { ItemsContext, ItemsProvider, useItems } from "../../context/ItemsContext";
-import { CalendarContext, CalendarProvider, useCalendar } from "../../context/CalendarContext";
+import { useItems } from "../../context/ItemsContext";
+import { useCalendar } from "../../context/CalendarContext";
 export function CalendarMonth() {
     const { items } = useItems();
     const calendar = useCalendar();

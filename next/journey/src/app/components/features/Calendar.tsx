@@ -3,6 +3,7 @@ import { useCalendar } from "../../context/CalendarContext";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 export function Calendar({children}: {children: React.ReactNode}) {
     const calendar = useCalendar();
+
     return (
         <div style={{display: "grid", gridAutoFlow: "row"}}>
             <div className="flex justify-between p-2">
